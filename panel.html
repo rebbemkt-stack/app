@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#611B2F">
+<meta name="robots" content="noindex">
+<title>Panel · rebbe club</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #611B2F; --brand2: #8B2A4C;
+    --bg: #F6DEE5; --bg2: #FDF4F7; --bg3: #F0D0DA; --border: #E2B9C6;
+    --text: #611B2F; --muted: #7E4C5C; --accent: #8B2A4C; --accent-dim: rgba(139,42,76,0.12);
+    --ok: #2E7D5B; --warn: #B4581E; --red: #A03030;
+    --radius: 16px; --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  button { font-family: inherit; cursor: pointer; }
+  .serif { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+  header {
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    color: #fff; padding: 18px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  header img { width: 84px; filter: brightness(0) invert(1); }
+  header .title { font-family: 'DM Serif Display', serif; font-size: 22px; flex: 1; }
+  header a, header button { color: #fff; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; padding: 7px 14px; font-size: 12px; font-weight: 600; text-decoration: none; }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .tab { background: var(--bg2); border: 1.5px solid var(--border); border-radius: 100px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  .tab.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .badge { display: inline-block; min-width: 20px; padding: 0 6px; border-radius: 100px; background: var(--warn); color: #fff; font-size: 11px; margin-left: 6px; }
+
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 14px; }
+  .label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .muted { color: var(--muted); font-size: 12px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .tile { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; }
+  .tile b { display: block; font-size: 22px; color: var(--accent); }
+  .tile span { font-size: 11px; color: var(--muted); }
+
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .input, textarea.input, select.input { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-family: inherit; font-size: 14px; color: var(--text); width: 100%; }
+  .toolbar .input { width: auto; flex: 1; min-width: 180px; }
+  .btn { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 10px 16px; font-size: 13px; font-weight: 700; }
+  .btn.ghost { background: none; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn.danger { background: none; color: var(--red); border: 1.5px solid var(--red); }
+  .btn.small { padding: 6px 10px; font-size: 12px; }
+  .chip { background: var(--bg3); border: 1px solid var(--border); border-radius: 100px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--text); }
+  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  td { padding: 11px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr.row { cursor: pointer; }
+  tr.row:hover td { background: var(--accent-dim); }
+  .name { font-weight: 600; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 100px; background: var(--bg3); color: var(--muted); white-space: nowrap; }
+  .pill.ok { background: rgba(46,125,91,0.12); color: var(--ok); }
+  .pill.warn { background: rgba(180,88,30,0.12); color: var(--warn); }
+  .pill.red { background: rgba(160,48,48,0.12); color: var(--red); }
+  .table-wrap { overflow-x: auto; }
+
+  .detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .detail-head h2 { font-size: 28px; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+  .list-row { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13px; }
+  .list-row:first-of-type { border-top: none; }
+  .bar { height: 8px; border-radius: 4px; background: var(--bg3); overflow: hidden; margin-top: 4px; }
+  .bar div { height: 100%; background: var(--accent); }
+  .photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+  .photos figure { border-radius: 10px; overflow: hidden; background: var(--bg3); aspect-ratio: 3/4; position: relative; }
+  .photos img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photos figcaption { position: absolute; left: 6px; bottom: 6px; font-size: 10px; background: rgba(0,0,0,0.55); color: #fff; padding: 2px 7px; border-radius: 100px; }
+  .empty { text-align: center; color: var(--muted); padding: 30px 10px; font-size: 14px; }
+
+  #login { max-width: 380px; margin: 10vh auto; text-align: center; padding: 0 16px; }
+  #login img { width: 160px; margin-bottom: 24px; }
+  #login h1 { font-size: 30px; margin-bottom: 18px; }
+  #login form { display: flex; flex-direction: column; gap: 10px; }
+  .msg { font-size: 12px; color: var(--red); min-height: 16px; text-align: left; }
+  .back { background: none; border: none; color: var(--accent); font-weight: 600; font-size: 13px; margin-bottom: 12px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--brand); color: #fff; padding: 10px 18px; border-radius: 100px; font-size: 13px; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="root"><div class="empty">Cargando…</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.100.0/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+// ─── Panel de la coach · rebbe club ──────────────────────────────────────────
+
+const cfg = window.REBBE_CONFIG || {};
+const root = document.getElementById('root');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const PLAN_LABELS = { gym_3d: 'Gimnasio · 3 días', gym_5d: 'Gimnasio · 5 días', casa_3d: 'Casa · 3 días', casa_5d: 'Casa · 5 días', personal: '⭐ Plan personal' };
+const MOODS = ['⚡ Con energía', '😌 Tranquila', '😴 Cansada', '😕 Sin ganas', '🤕 Con molestias'];
+const MONTH_AREAS = ['Cuerpo y entreno', 'Alimentación', 'Mente y emociones', 'Autoestima', 'Relaciones', 'Trabajo y propósito', 'Descanso y sueño', 'Diversión y hobbies'];
+const DATA_KEYS = ['bloco_history', 'bloco_level', 'rebbe_daily', 'rebbe_measures', 'rebbe_months', 'rebbe_name', 'rebbe_start', 'rebbe_diet'];
+
+let sb = null, me = null;
+let dietTitles = {}; // diet id -> title (from the diets table)
+let profiles = [], dataByUser = {}, announcements = [], courses = [], lessons = [];
+let tab = 'clients', filter = 'all', search = '', openId = null;
+let editCourseId = null, editLessonId = null; // course editor: id or 'new'; lesson form: id or 'new'
+
+function toast(t) { const el = document.getElementById('toast'); el.textContent = t; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2500); }
+
+// ─── dates ───────────────────────────────────────────────────────────────────
+const todayStr = () => new Date().toISOString().split('T')[0];
+function shiftDate(d, n) { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().split('T')[0]; }
+function weekStart(d) { const x = new Date(d + 'T12:00:00Z'); return shiftDate(d, -((x.getUTCDay() + 6) % 7)); }
+function daysSince(d) { return d ? Math.round((new Date(todayStr()) - new Date(d)) / 864e5) : null; }
+function fmtDate(d) { return d ? new Date(d.length > 10 ? d : d + 'T12:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '–'; }
+function ago(d) {
+  const n = daysSince(d);
+  if (n === null) return '<span class="pill">Nunca</span>';
+  if (n === 0) return '<span class="pill ok">Hoy</span>';
+  if (n === 1) return '<span class="pill ok">Ayer</span>';
+  return `<span class="pill ${n >= 7 ? 'red' : n >= 4 ? 'warn' : ''}">Hace ${n} días</span>`;
+}
+
+// ─── per-client summary ──────────────────────────────────────────────────────
+function summary(p) {
+  const d = dataByUser[p.id] || {};
+  const hist = Array.isArray(d.bloco_history) ? d.bloco_history : [];
+  const workouts = hist.filter(h => !h.isRest && h.type !== 'hiit');
+  const hiits = hist.filter(h => h.type === 'hiit');
+  const plan = d.bloco_level || p.plan;
+  const goal = plan && plan.includes('5d') ? 5 : 3;
+  const ws = weekStart(todayStr());
+  const thisWeek = workouts.filter(h => weekStart(h.date) === ws).length;
+  const lastWorkout = hist.filter(h => !h.isRest).map(h => h.date).sort().pop() || null;
+  const daily = d.rebbe_daily || {};
+  const lastMoodDay = Object.keys(daily).filter(k => daily[k] && daily[k].mood !== undefined && daily[k].mood !== null).sort().pop();
+  const prs = workouts.reduce((a, h) => a + (h.exercises || []).reduce((b, e) => b + (e.sets || []).filter(s => s.isPR).length, 0), 0);
+  return {
+    name: d.rebbe_name || p.name || p.email, plan, diet: d.rebbe_diet ? (dietTitles[d.rebbe_diet] || d.rebbe_diet) : null, goal, thisWeek, workouts, hiits, lastWorkout, prs,
+    lastMood: lastMoodDay ? { day: lastMoodDay, mood: MOODS[daily[lastMoodDay].mood] } : null,
+    daily, measures: Array.isArray(d.rebbe_measures) ? d.rebbe_measures : [], months: d.rebbe_months || {}, start: d.rebbe_start,
+  };
+}
+
+// ─── data ────────────────────────────────────────────────────────────────────
+async function loadAll() {
+  const [pr, ud, an, cs, ls, dt] = await Promise.all([
+    sb.from('profiles').select('*').order('created_at', { ascending: false }),
+    sb.from('user_data').select('user_id,key,value').in('key', DATA_KEYS),
+    sb.from('announcements').select('*').order('created_at', { ascending: false }),
+    sb.from('courses').select('*').order('position').order('id'),
+    sb.from('lessons').select('*').order('position').order('id'),
+    sb.from('diets').select('id,title,month'),
+  ]);
+  dietTitles = {};
+  (dt.data || []).forEach(x => { dietTitles[x.id] = x.title; });
+  courses = cs.data || [];
+  lessons = ls.data || [];
+  if (pr.error) throw pr.error;
+  profiles = pr.data || [];
+  dataByUser = {};
+  (ud.data || []).forEach(r => { (dataByUser[r.user_id] = dataByUser[r.user_id] || {})[r.key] = r.value; });
+  announcements = an.data || [];
+}
+
+async function setStatus(id, status) {
+  const { error } = await sb.from('profiles').update({ status }).eq('id', id);
+  if (error) return toast('No se pudo guardar: ' + error.message);
+  const p = profiles.find(x => x.id === id);
+  if (p) p.status = status;
+  toast(status === 'active' ? '✅ Acceso activado' : '⏸️ Acceso desactivado');
+  render();
+}
+
+// ─── views ───────────────────────────────────────────────────────────────────
+function shell(inner) {
+  const pending = profiles.filter(p => p.status === 'pending' && p.role !== 'coach').length;
+  root.innerHTML = `
+    <header>
+      <img src="logo.png" alt="rebbe club">
+      <div class="title">Panel de coach</div>
+      <a href="index.html">Abrir la app</a>
+      <button onclick="refresh()">↻ Actualizar</button>
+      <button onclick="logout()">Salir</button>
+    </header>
+    <main>
+      <div class="tabs">
+        <button class="tab ${tab === 'clients' ? 'on' : ''}" onclick="go('clients')">Clientas</button>
+        <button class="tab ${tab === 'pending' ? 'on' : ''}" onclick="go('pending')">Pendientes${pending ? `<span class="badge">${pending}</span>` : ''}</button>
+        <button class="tab ${tab === 'news' ? 'on' : ''}" onclick="go('news')">Avisos</button>
+        <button class="tab ${tab === 'content' ? 'on' : ''}" onclick="go('content')">Contenidos</button>
+      </div>
+      ${inner}
+    </main>`;
+}
+
+function render() {
+  if (openId) return renderDetail(openId);
+  if (tab === 'pending') return renderPending();
+  if (tab === 'news') return renderNews();
+  if (tab === 'content') return editCourseId ? renderCourseEditor() : renderContent();
+  renderClients();
+}
+
+function go(t) { tab = t; openId = null; editCourseId = null; editLessonId = null; render(); window.scrollTo(0, 0); }
+
+function renderClients() {
+  const clients = profiles.filter(p => p.role !== 'coach' && p.status !== 'pending');
+  const rows = clients.map(p => ({ p, s: summary(p) }))
+    .filter(({ p, s }) => {
+      if (filter === 'active' && p.status !== 'active') return false;
+      if (filter === 'inactive' && p.status !== 'inactive') return false;
+      if (filter === 'away' && (p.status !== 'active' || (daysSince(s.lastWorkout) ?? 99) < 7)) return false;
+      const q = search.toLowerCase();
+      return !q || (s.name || '').toLowerCase().includes(q) || (p.email || '').toLowerCase().includes(q);
+    })
+    .sort((a, b) => (b.s.lastWorkout || '').localeCompare(a.s.lastWorkout || ''));
+
+  const active = clients.filter(p => p.status === 'active');
+  const sums = active.map(summary);
+  const trainedThisWeek = sums.filter(s => s.thisWeek > 0).length;
+  const away = sums.filter(s => (daysSince(s.lastWorkout) ?? 99) >= 7).length;
+  const goalMet = sums.filter(s => s.thisWeek >= s.goal).length;
+
+  shell(`
+    <div class="tiles">
+      <div class="tile"><b>${active.length}</b><span>clientas activas</span></div>
+      <div class="tile"><b>${trainedThisWeek}</b><span>han entrenado esta semana</span></div>
+      <div class="tile"><b>${goalMet}</b><span>han cumplido su meta semanal</span></div>
+      <div class="tile"><b>${away}</b><span>llevan 7+ días sin entrenar</span></div>
+    </div>
+    <div class="card">
+      <div class="toolbar">
+        <input class="input" placeholder="Buscar por nombre o email" value="${esc(search)}" oninput="search=this.value;renderClientsKeepFocus()">
+        ${[['all', 'Todas'], ['active', 'Activas'], ['away', '7+ días sin entrenar'], ['inactive', 'Desactivadas']].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" onclick="filter='${k}';render()">${l}</button>`).join('')}
+      </div>
+      ${rows.length ? `<div class="table-wrap"><table>
+        <thead><tr><th>Clienta</th><th>Plan</th><th>Último entreno</th><th>Esta semana</th><th>Cómo llegó</th><th>Estado</th></tr></thead>
+        <tbody>${rows.map(({ p, s }) => `
+          <tr class="row" onclick="openClient('${p.id}')">
+            <td><div class="name">${esc(s.name)}</div><div class="muted">${esc(p.email)}</div></td>
+            <td>${esc(PLAN_LABELS[s.plan] || '–')}<div class="muted">${s.diet ? '🍽️ ' + esc(s.diet) : 'Sin dieta elegida'}</div></td>
+            <td>${ago(s.lastWorkout)}</td>
+            <td><b>${s.thisWeek}/${s.goal}</b><div class="bar" style="width:70px"><div style="width:${Math.min(100, s.thisWeek / s.goal * 100)}%"></div></div></td>
+            <td>${s.lastMood ? `${s.lastMood.mood}<div class="muted">${fmtDate(s.lastMood.day)}</div>` : '<span class="muted">–</span>'}</td>
+            <td>${p.status === 'active' ? '<span class="pill ok">Activa</span>' : '<span class="pill red">Desactivada</span>'}</td>
+          </tr>`).join('')}</tbody>
+      </table></div>` : '<div class="empty">No hay clientas que coincidan.</div>'}
+    </div>`);
+}
+
+// Keeps the cursor in the search box while the table re-renders
+function renderClientsKeepFocus() {
+  renderClients();
+  const input = document.querySelector('.toolbar .input');
+  if (input) { input.focus(); input.setSelectionRange(input.value.length, input.value.length); }
+}
+
+function renderPending() {
+  const pending = profiles.filter(p => p.status === 'pending' && p.role !== 'coach');
+  shell(`
+    <div class="card">
+      <div class="label">Esperando tu aprobación</div>
+      ${pending.length ? pending.map(p => `
+        <div class="list-row" style="align-items:center">
+          <div><div class="name">${esc(p.name)}</div><div class="muted">${esc(p.email)} · se registró el ${fmtDate(p.created_at)}</div></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn small" onclick="setStatus('${p.id}','active')">Aprobar</button>
+            <button class="btn danger small" onclick="if(confirm('¿Rechazar a esta clienta? No podrá entrar a la app.'))setStatus('${p.id}','inactive')">Rechazar</button>
+          </div>
+        </div>`).join('') : '<div class="empty">No hay nadie esperando. 🎉</div>'}
+    </div>`);
+}
+
+function renderNews() {
+  shell(`
+    <div class="card">
+      <div class="label">Publicar un aviso</div>
+      <div style="display:grid;gap:10px">
+        <input class="input" id="nTag" placeholder="Etiqueta (por ejemplo: Directo, Reto, Novedad)" maxlength="20">
+        <input class="input" id="nTitle" placeholder="Título" maxlength="80">
+        <textarea class="input" id="nText" rows="4" placeholder="Mensaje"></textarea>
+        <div><button class="btn" onclick="publish()">Publicar aviso</button> <span class="muted">Lo verán todas tus clientas en Inicio y en Club.</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">Avisos publicados</div>
+      ${announcements.length ? announcements.map(a => `
+        <div class="list-row">
+          <div><span class="pill">${esc(a.tag)}</span> <b>${esc(a.title)}</b><div class="muted" style="margin-top:4px;white-space:pre-line">${esc(a.text)}</div><div class="muted">${fmtDate(a.created_at)}</div></div>
+          <button class="btn danger small" onclick="unpublish(${a.id})">Borrar</button>
+        </div>`).join('') : '<div class="empty">Aún no has publicado avisos. Mientras tanto, tus clientas ven el de bienvenida.</div>'}
+    </div>`);
+}
+
+async function publish() {
+  const tag = document.getElementById('nTag').value.trim() || 'Aviso';
+  const title = document.getElementById('nTitle').value.trim();
+  const text = document.getElementById('nText').value.trim();
+  if (!title) return toast('Escribe al menos un título');
+  const { data, error } = await sb.from('announcements').insert({ tag, title, text }).select().single();
+  if (error) return toast('No se pudo publicar: ' + error.message);
+  announcements.unshift(data);
+  toast('📣 Aviso publicado');
+  renderNews();
+}
+
+async function unpublish(id) {
+  if (!confirm('¿Borrar este aviso?')) return;
+  const { error } = await sb.from('announcements').delete().eq('id', id);
+  if (error) return toast('No se pudo borrar: ' + error.message);
+  announcements = announcements.filter(a => a.id !== id);
+  renderNews();
+}
+
+function openClient(id) { openId = id; render(); window.scrollTo(0, 0); }
+function closeClient() { openId = null; render(); }
+
+function renderDetail(id) {
+  const p = profiles.find(x => x.id === id);
+  if (!p) { openId = null; return render(); }
+  const s = summary(p);
+  const last14 = Array.from({ length: 14 }, (_, i) => shiftDate(todayStr(), i - 13));
+  const days = last14.map(d => s.daily[d] || {});
+  const waterVals = days.map(d => d.water).filter(v => v !== undefined && v !== null);
+  const sleepVals = days.map(d => d.sleep).filter(Boolean);
+  const avg = a => a.length ? (a.reduce((x, y) => x + y, 0) / a.length).toFixed(1) : '–';
+  const moodCounts = MOODS.map((m, i) => [m, days.filter(d => d.mood === i).length]).filter(([, n]) => n);
+  const monthKeys = Object.keys(s.months).sort();
+  const lastMonth = monthKeys.length ? s.months[monthKeys[monthKeys.length - 1]] : null;
+  const prevMonth = monthKeys.length > 1 ? s.months[monthKeys[monthKeys.length - 2]] : null;
+  const measures = s.measures.slice().sort((a, b) => a.date.localeCompare(b.date));
+  const firstM = measures[0];
+  const recent = (dataByUser[id] && Array.isArray(dataByUser[id].bloco_history) ? dataByUser[id].bloco_history : []).filter(h => !h.isRest).slice(0, 12);
+
+  shell(`
+    <button class="back" onclick="closeClient()">‹ Volver a clientas</button>
+    <div class="detail-head">
+      <div>
+        <h2 class="serif">${esc(s.name)}</h2>
+        <div class="muted">${esc(p.email)} · ${esc(PLAN_LABELS[s.plan] || 'sin plan elegido')} · dieta: ${esc(s.diet || 'sin elegir')} · desde ${fmtDate(s.start || p.created_at)} · última vez en la app: ${p.last_seen ? fmtDate(p.last_seen) : '–'}</div>
+      </div>
+      <div>${p.status === 'active'
+        ? `<button class="btn danger small" onclick="if(confirm('¿Desactivar el acceso de esta clienta? Sus datos se conservan.'))setStatus('${id}','inactive')">Desactivar acceso</button>`
+        : `<button class="btn small" onclick="setStatus('${id}','active')">Activar acceso</button>`}</div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile"><b>${s.thisWeek}/${s.goal}</b><span>entrenos esta semana</span></div>
+      <div class="tile"><b>${s.workouts.length}</b><span>entrenos en total</span></div>
+      <div class="tile"><b>${s.hiits.length}</b><span>HIIT</span></div>
+      <div class="tile"><b>${s.prs}</b><span>récords de carga</span></div>
+      <div class="tile"><b>${s.lastWorkout ? daysSince(s.lastWorkout) + ' d' : '–'}</b><span>desde el último entreno</span></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="label">Últimos entrenos</div>
+        ${recent.length ? recent.map(h => `
+          <div class="list-row"><div><b>${h.type === 'hiit' ? '⚡ ' + esc(h.name) : esc(h.name) + ' — ' + esc(h.focus)}</b><div class="muted">${fmtDate(h.date)}</div></div>
+          <div class="muted" style="text-align:right">${h.type === 'hiit' ? (h.completed ? 'Completo' : 'Parcial') : `${h.doneSets}/${h.totalSets} series · ${(h.volume || 0).toLocaleString('es-ES')} kg`}<br>${h.duration || 0} min</div></div>`).join('') : '<div class="empty">Aún no ha registrado entrenos.</div>'}
+      </div>
+
+      <div class="card">
+        <div class="label">Hábitos · últimos 14 días</div>
+        <div class="list-row"><span>Agua (media de vasos)</span><b>${avg(waterVals)} / 8</b></div>
+        <div class="list-row"><span>Sueño (media)</span><b>${avg(sleepVals)}${sleepVals.length ? ' h' : ''}</b></div>
+        <div class="list-row"><span>Días que registró cómo llegaba</span><b>${days.filter(d => d.mood !== undefined && d.mood !== null).length} / 14</b></div>
+        ${moodCounts.map(([m, n]) => `<div class="list-row"><span>${m}</span><b>${n} ${n === 1 ? 'día' : 'días'}</b></div>`).join('')}
+      </div>
+
+      <div class="card">
+        <div class="label">Peso y medidas</div>
+        ${measures.length ? `<div class="table-wrap"><table>
+          <thead><tr><th>Fecha</th><th>Peso</th><th>Cintura</th><th>Cadera</th><th>Brazo</th><th>Muslo</th></tr></thead>
+          <tbody>${measures.slice().reverse().map(m => `<tr><td>${fmtDate(m.date)}</td>${['weight', 'waist', 'hip', 'arm', 'thigh'].map(k => {
+            const diff = firstM && firstM !== m && m[k] && firstM[k] ? Math.round((m[k] - firstM[k]) * 10) / 10 : null;
+            return `<td>${m[k] ?? '–'}${diff ? ` <span class="muted">(${diff > 0 ? '+' : ''}${diff})</span>` : ''}</td>`;
+          }).join('')}</tr>`).join('')}</tbody></table></div>` : '<div class="empty">Sin registros.</div>'}
+      </div>
+
+      <div class="card">
+        <div class="label">Autoevaluación mensual ${monthKeys.length ? '· ' + monthKeys[monthKeys.length - 1] : ''}</div>
+        ${lastMonth ? MONTH_AREAS.map((a, i) => {
+          const v = lastMonth.values[i];
+          const diff = prevMonth ? v - prevMonth.values[i] : 0;
+          return `<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${a}</span><b>${v}${diff ? ` <span class="muted">(${diff > 0 ? '+' : ''}${diff})</span>` : ''}</b></div><div class="bar"><div style="width:${v * 10}%"></div></div></div>`;
+        }).join('') : '<div class="empty">Aún no la ha hecho.</div>'}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">Fotos de progreso</div>
+      <div id="photoBox"><div class="muted">Cargando fotos…</div></div>
+    </div>`);
+  loadPhotos(id);
+}
+
+async function loadPhotos(id) {
+  const box = document.getElementById('photoBox');
+  const { data, error } = await sb.from('photos').select('*').eq('user_id', id).order('date');
+  if (!box || openId !== id) return;
+  if (error || !data || !data.length) { box.innerHTML = '<div class="empty">No ha subido fotos.</div>'; return; }
+  const signed = await sb.storage.from('progress-photos').createSignedUrls(data.map(p => p.path), 3600);
+  const urls = {};
+  (signed.data || []).forEach(s => { urls[s.path] = s.signedUrl; });
+  box.innerHTML = `<div class="photos">${data.map(p => `<figure><img src="${urls[p.path] || ''}" alt="" loading="lazy"><figcaption>${fmtDate(p.date)} · ${esc(p.pose || '')}</figcaption></figure>`).join('')}</div>`;
+}
+
+// ─── contenidos (cursos y clases) ────────────────────────────────────────────
+
+function ytId(url) {
+  if (!url) return null;
+  const m = String(url).match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : (/^[A-Za-z0-9_-]{11}$/.test(url.trim()) ? url.trim() : null);
+}
+const courseLessons = id => lessons.filter(l => l.course_id === id).sort((a, b) => a.position - b.position || a.id - b.id);
+function coverOf(c) {
+  if (c.cover_url) return c.cover_url;
+  const first = courseLessons(c.id).find(l => ytId(l.youtube_url));
+  return first ? `https://i.ytimg.com/vi/${ytId(first.youtube_url)}/hqdefault.jpg` : '';
+}
+
+function renderContent() {
+  const cats = [...new Set(courses.map(c => c.category))];
+  shell(`
+    <div class="toolbar" style="justify-content:space-between">
+      <div class="muted">Tus clientas los ven en la app, en la pestaña Club. Los vídeos de YouTube deben estar en <b>Oculto</b> (no en Privado).</div>
+      <button class="btn" onclick="editCourse('new')">+ Nuevo curso</button>
+    </div>
+    ${courses.length ? cats.map(cat => `
+      <div class="card">
+        <div class="label">${esc(cat)}</div>
+        ${courses.filter(c => c.category === cat).map(c => {
+          const n = courseLessons(c.id).length;
+          const img = coverOf(c);
+          return `<div class="list-row" style="align-items:center">
+            <div style="display:flex;gap:12px;align-items:center;min-width:0">
+              <div style="width:96px;aspect-ratio:16/9;border-radius:8px;background:var(--bg3) center/cover;${img ? `background-image:url('${esc(img)}')` : ''};flex-shrink:0"></div>
+              <div style="min-width:0"><div class="name">${esc(c.title)}</div><div class="muted">${n} ${n === 1 ? 'clase' : 'clases'} ${c.published ? '' : '· <span class="pill warn">Oculto</span>'}</div></div>
+            </div>
+            <div style="display:flex;gap:6px;flex-shrink:0">
+              <button class="btn ghost small" title="Subir" onclick="moveCourse(${c.id},-1)">↑</button>
+              <button class="btn ghost small" title="Bajar" onclick="moveCourse(${c.id},1)">↓</button>
+              <button class="btn small" onclick="editCourse(${c.id})">Editar</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`).join('') : '<div class="card"><div class="empty">Aún no hay cursos. Crea el primero con "+ Nuevo curso".</div></div>'}`);
+}
+
+function editCourse(id) { editCourseId = id; editLessonId = null; render(); window.scrollTo(0, 0); }
+
+async function moveCourse(id, dir) {
+  const list = courses.slice().sort((a, b) => a.position - b.position || a.id - b.id);
+  const i = list.findIndex(c => c.id === id), j = i + dir;
+  if (j < 0 || j >= list.length) return;
+  [list[i], list[j]] = [list[j], list[i]];
+  await reposition('courses', list);
+  courses = list;
+  renderContent();
+}
+
+// Writes position = index for every row of a reordered list
+async function reposition(table, list) {
+  list.forEach((row, idx) => { row.position = idx; });
+  const results = await Promise.all(list.map(row => sb.from(table).update({ position: row.position }).eq('id', row.id)));
+  const err = results.find(r => r.error);
+  if (err) toast('No se pudo reordenar: ' + err.error.message);
+}
+
+function renderCourseEditor() {
+  const isNew = editCourseId === 'new';
+  const c = isNew ? { category: '', title: '', description: '', cover_url: '', published: true } : courses.find(x => x.id === editCourseId);
+  if (!c) { editCourseId = null; return renderContent(); }
+  const cats = [...new Set(courses.map(x => x.category))];
+  const ls = isNew ? [] : courseLessons(c.id);
+  const modules = [...new Set(ls.map(l => l.module).filter(Boolean))];
+  const editing = editLessonId === 'new' ? { module: ls.length ? ls[ls.length - 1].module : '', title: '', youtube_url: '', body: '' } : ls.find(l => l.id === editLessonId);
+
+  shell(`
+    <button class="back" onclick="editCourseId=null;render()">‹ Volver a contenidos</button>
+    <div class="card">
+      <div class="label">${isNew ? 'Nuevo curso' : 'Editar curso'}</div>
+      <div style="display:grid;gap:10px">
+        <input class="input" id="cCat" list="catList" placeholder="Categoría (por ejemplo: Nutrición, Entrenos, Mentorías)" value="${esc(c.category)}">
+        <datalist id="catList">${cats.map(k => `<option value="${esc(k)}">`).join('')}</datalist>
+        <input class="input" id="cTitle" placeholder="Título del curso" value="${esc(c.title)}">
+        <textarea class="input" id="cDesc" rows="3" placeholder="Descripción (opcional)">${esc(c.description)}</textarea>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div id="cCoverPreview" style="width:160px;aspect-ratio:16/9;border-radius:10px;background:var(--bg3) center/cover;${c.cover_url ? `background-image:url('${esc(c.cover_url)}')` : ''}"></div>
+          <div>
+            <label class="btn ghost small" style="display:inline-block">Subir portada<input type="file" accept="image/*" style="display:none" onchange="uploadCover(this)"></label>
+            <div class="muted" style="margin-top:6px">Opcional. Si no subes ninguna, se usa la miniatura del primer vídeo.</div>
+          </div>
+          <input type="hidden" id="cCover" value="${esc(c.cover_url || '')}">
+        </div>
+        <label style="font-size:13px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="cPub" ${c.published ? 'checked' : ''}> Visible para las clientas</label>
+        <label style="font-size:13px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="cNew" ${c.is_new ? 'checked' : ''}> ✨ Marcar como NUEVO (sale con la etiqueta en la app)</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" onclick="saveCourse()">${isNew ? 'Crear curso' : 'Guardar cambios'}</button>
+          ${isNew ? '' : `<button class="btn danger" onclick="deleteCourse(${c.id})">Borrar curso</button>`}
+        </div>
+      </div>
+    </div>
+
+    ${isNew ? '<div class="muted">Crea el curso y después podrás añadirle las clases.</div>' : `
+    <div class="card">
+      <div class="toolbar" style="justify-content:space-between;margin-bottom:6px">
+        <div class="label" style="margin:0">Clases (${ls.length})</div>
+        <button class="btn small" onclick="editLesson('new')">+ Añadir clase</button>
+      </div>
+      ${editing ? lessonForm(editing, modules) : ''}
+      ${ls.length ? ls.map((l, i) => {
+        const id = ytId(l.youtube_url);
+        const head = l.module && (i === 0 || ls[i - 1].module !== l.module) ? `<div class="label" style="margin:14px 0 4px">${esc(l.module)}</div>` : '';
+        return `${head}<div class="list-row" style="align-items:center">
+          <div style="display:flex;gap:10px;align-items:center;min-width:0">
+            <div style="width:80px;aspect-ratio:16/9;border-radius:6px;background:var(--bg3) center/cover;${id ? `background-image:url('https://i.ytimg.com/vi/${id}/mqdefault.jpg')` : ''};flex-shrink:0"></div>
+            <div style="min-width:0"><div class="name">${l.is_new ? '<span class="pill ok">NUEVO</span> ' : ''}${esc(l.title)}</div><div class="muted">${[id ? 'Vídeo' : '', (l.attachments || []).length ? `${l.attachments.length} archivo${l.attachments.length > 1 ? 's' : ''}` : '', l.body ? 'Texto' : ''].filter(Boolean).join(' · ') || '<span class="pill warn">Vacía</span>'}</div></div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            <button class="btn ghost small" onclick="moveLesson(${l.id},-1)">↑</button>
+            <button class="btn ghost small" onclick="moveLesson(${l.id},1)">↓</button>
+            <button class="btn small" onclick="editLesson(${l.id})">Editar</button>
+          </div>
+        </div>`;
+      }).join('') : (editing ? '' : '<div class="empty">Este curso aún no tiene clases.</div>')}
+    </div>`}`);
+}
+
+function lessonForm(l, modules) {
+  const id = ytId(l.youtube_url);
+  return `<div class="card" style="background:#fff;margin:6px 0 14px">
+    <div class="label">${l.id ? 'Editar clase' : 'Nueva clase'}</div>
+    <div style="display:grid;gap:10px">
+      <input class="input" id="lModule" list="modList" placeholder="Módulo (opcional, por ejemplo: Módulo 1)" value="${esc(l.module)}">
+      <datalist id="modList">${modules.map(m => `<option value="${esc(m)}">`).join('')}</datalist>
+      <input class="input" id="lTitle" placeholder="Título de la clase" value="${esc(l.title)}">
+      <input class="input" id="lUrl" placeholder="Enlace de YouTube (por ejemplo: https://youtu.be/...)" value="${esc(l.youtube_url || '')}" oninput="previewYt(this.value)">
+      <div id="lPreview">${id ? `<img src="https://i.ytimg.com/vi/${id}/mqdefault.jpg" style="width:200px;border-radius:8px">` : ''}</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div id="lCoverPreview" style="width:160px;aspect-ratio:16/9;border-radius:10px;background:var(--bg3) center/cover;${l.cover_url ? `background-image:url('${esc(l.cover_url)}')` : ''}"></div>
+        <div>
+          <label class="btn ghost small" style="display:inline-block">Subir portada de la clase<input type="file" accept="image/*" style="display:none" onchange="uploadCover(this, 'l')"></label>
+          ${l.cover_url ? `<button class="btn ghost small" onclick="document.getElementById('lCover').value='';document.getElementById('lCoverPreview').style.backgroundImage=''">Quitar</button>` : ''}
+          <div class="muted" style="margin-top:6px">Opcional. Sale en «Material nuevo» y arriba de la clase si no tiene vídeo.</div>
+        </div>
+        <input type="hidden" id="lCover" value="${esc(l.cover_url || '')}">
+      </div>
+      <textarea class="input" id="lBody" rows="4" placeholder="Texto o materiales (opcional). Los enlaces se podrán pulsar.">${esc(l.body)}</textarea>
+      <div>
+        <div class="label" style="margin-bottom:6px">Archivos (PDF, imágenes…)</div>
+        <div id="lFiles">${filesHtml()}</div>
+        <label class="btn ghost small" style="display:inline-block;margin-top:6px">+ Subir archivos<input type="file" multiple style="display:none" onchange="uploadFiles(this)"></label>
+        <span class="muted">Máximo 50 MB por archivo.</span>
+      </div>
+      <label style="font-size:13px;display:flex;gap:8px;align-items:center"><input type="checkbox" id="lNew" ${l.is_new ? 'checked' : ''}> ✨ Marcar como MATERIAL NUEVO</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" onclick="saveLesson()">${l.id ? 'Guardar clase' : 'Añadir clase'}</button>
+        <button class="btn ghost" onclick="editLessonId=null;render()">Cancelar</button>
+        ${l.id ? `<button class="btn danger" onclick="deleteLesson(${l.id})">Borrar clase</button>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function previewYt(v) {
+  const id = ytId(v);
+  document.getElementById('lPreview').innerHTML = id
+    ? `<img src="https://i.ytimg.com/vi/${id}/mqdefault.jpg" style="width:200px;border-radius:8px">`
+    : (v ? '<span class="muted">No reconozco ese enlace de YouTube.</span>' : '');
+}
+
+// Attachments of the lesson being edited (saved together with the lesson)
+let formFiles = [];
+function filesHtml() {
+  return formFiles.map((f, i) => `<div class="list-row" style="align-items:center"><a href="${esc(f.url)}" target="_blank" rel="noopener">📄 ${esc(f.name)}</a><button class="btn danger small" onclick="formFiles.splice(${i},1);document.getElementById('lFiles').innerHTML=filesHtml()">Quitar</button></div>`).join('')
+    || '<div class="muted">Sin archivos.</div>';
+}
+
+async function uploadFiles(input) {
+  const files = [...(input.files || [])];
+  for (const file of files) {
+    if (file.size > 50 * 1024 * 1024) { toast(`${file.name} pesa más de 50 MB`); continue; }
+    toast(`Subiendo ${file.name}…`);
+    const safe = file.name.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9._-]+/g, '-');
+    const path = `${editCourseId}/${Date.now()}-${safe}`;
+    const up = await sb.storage.from('materials').upload(path, file, { contentType: file.type || 'application/octet-stream' });
+    if (up.error) { toast('No se pudo subir: ' + up.error.message); continue; }
+    formFiles.push({ name: file.name.replace(/\.[^.]+$/, ''), url: sb.storage.from('materials').getPublicUrl(path).data.publicUrl });
+    document.getElementById('lFiles').innerHTML = filesHtml();
+  }
+  input.value = '';
+  toast('Archivos listos: pulsa Guardar clase');
+}
+
+function editLesson(id) {
+  editLessonId = id;
+  const l = id === 'new' ? null : lessons.find(x => x.id === id);
+  formFiles = l && Array.isArray(l.attachments) ? l.attachments.map(a => ({ ...a })) : [];
+  render();
+}
+
+async function uploadCover(input, prefix = 'c') {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  toast('Subiendo portada…');
+  const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  const path = `${Date.now()}.${ext}`;
+  const up = await sb.storage.from('course-covers').upload(path, file, { contentType: file.type, upsert: true });
+  if (up.error) return toast('No se pudo subir: ' + up.error.message);
+  const url = sb.storage.from('course-covers').getPublicUrl(path).data.publicUrl;
+  document.getElementById(prefix + 'Cover').value = url;
+  document.getElementById(prefix + 'CoverPreview').style.backgroundImage = `url('${url}')`;
+  toast('Portada lista: pulsa Guardar');
+}
+
+async function saveCourse() {
+  const row = {
+    category: document.getElementById('cCat').value.trim() || 'General',
+    title: document.getElementById('cTitle').value.trim(),
+    description: document.getElementById('cDesc').value.trim(),
+    cover_url: document.getElementById('cCover').value || null,
+    published: document.getElementById('cPub').checked,
+    is_new: document.getElementById('cNew').checked,
+  };
+  if (!row.title) return toast('Ponle un título al curso');
+  if (editCourseId === 'new') {
+    row.position = courses.length ? Math.max(...courses.map(c => c.position)) + 1 : 0;
+    const { data, error } = await sb.from('courses').insert(row).select().single();
+    if (error) return toast('No se pudo crear: ' + error.message);
+    courses.push(data);
+    editCourseId = data.id;
+    toast('Curso creado. Ahora añade las clases');
+  } else {
+    const { data, error } = await sb.from('courses').update(row).eq('id', editCourseId).select().single();
+    if (error) return toast('No se pudo guardar: ' + error.message);
+    courses = courses.map(c => (c.id === data.id ? data : c));
+    toast('Curso guardado');
+  }
+  render();
+}
+
+async function deleteCourse(id) {
+  if (!confirm('¿Borrar este curso y todas sus clases? No se puede deshacer.')) return;
+  const { error } = await sb.from('courses').delete().eq('id', id);
+  if (error) return toast('No se pudo borrar: ' + error.message);
+  courses = courses.filter(c => c.id !== id);
+  lessons = lessons.filter(l => l.course_id !== id);
+  editCourseId = null;
+  toast('Curso borrado');
+  render();
+}
+
+async function saveLesson() {
+  const row = {
+    module: document.getElementById('lModule').value.trim(),
+    title: document.getElementById('lTitle').value.trim(),
+    youtube_url: document.getElementById('lUrl').value.trim() || null,
+    body: document.getElementById('lBody').value.trim(),
+    attachments: formFiles,
+    is_new: document.getElementById('lNew').checked,
+    cover_url: document.getElementById('lCover').value || null,
+  };
+  if (!row.title) return toast('Ponle un título a la clase');
+  if (row.youtube_url && !ytId(row.youtube_url)) return toast('Ese enlace de YouTube no es válido');
+  if (editLessonId === 'new') {
+    const ls = courseLessons(editCourseId);
+    row.course_id = editCourseId;
+    row.position = ls.length ? Math.max(...ls.map(l => l.position)) + 1 : 0;
+    const { data, error } = await sb.from('lessons').insert(row).select().single();
+    if (error) return toast('No se pudo añadir: ' + error.message);
+    lessons.push(data);
+    toast('Clase añadida');
+    editLessonId = 'new'; // keep the form open to add the next one
+    formFiles = [];
+  } else {
+    const { data, error } = await sb.from('lessons').update(row).eq('id', editLessonId).select().single();
+    if (error) return toast('No se pudo guardar: ' + error.message);
+    lessons = lessons.map(l => (l.id === data.id ? data : l));
+    editLessonId = null;
+    toast('Clase guardada');
+  }
+  render();
+}
+
+async function deleteLesson(id) {
+  if (!confirm('¿Borrar esta clase?')) return;
+  const { error } = await sb.from('lessons').delete().eq('id', id);
+  if (error) return toast('No se pudo borrar: ' + error.message);
+  lessons = lessons.filter(l => l.id !== id);
+  editLessonId = null;
+  render();
+}
+
+async function moveLesson(id, dir) {
+  const ls = courseLessons(editCourseId);
+  const i = ls.findIndex(l => l.id === id), j = i + dir;
+  if (j < 0 || j >= ls.length) return;
+  [ls[i], ls[j]] = [ls[j], ls[i]];
+  await reposition('lessons', ls);
+  render();
+}
+
+// ─── auth ────────────────────────────────────────────────────────────────────
+function renderLogin(message) {
+  root.innerHTML = `
+    <div id="login">
+      <img src="logo.png" alt="rebbe club">
+      <h1 class="serif">Panel de coach</h1>
+      <form onsubmit="login(event)">
+        <input class="input" id="email" type="email" placeholder="Tu email" autocomplete="email" required>
+        <input class="input" id="pass" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+        <div class="msg" id="msg">${esc(message || '')}</div>
+        <button class="btn" type="submit">Entrar</button>
+      </form>
+    </div>`;
+}
+
+async function login(e) {
+  e.preventDefault();
+  const { error } = await sb.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('pass').value });
+  if (error) { document.getElementById('msg').textContent = 'Email o contraseña incorrectos.'; return; }
+  start();
+}
+
+async function logout() { await sb.auth.signOut(); renderLogin(); }
+
+async function refresh() {
+  try { await loadAll(); render(); toast('Datos actualizados'); } catch (e) { toast('No se pudo actualizar'); }
+}
+
+async function start() {
+  if (!cfg.supabaseUrl || !cfg.supabaseAnonKey || !window.supabase) {
+    root.innerHTML = '<div class="empty">Falta conectar Supabase en config.js.</div>';
+    return;
+  }
+  sb = sb || window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+  const { data } = await sb.auth.getSession();
+  if (!data.session) return renderLogin();
+  const { data: p } = await sb.from('profiles').select('*').eq('id', data.session.user.id).single();
+  if (!p || p.role !== 'coach') { await sb.auth.signOut(); return renderLogin('Esta cuenta no es de coach.'); }
+  me = p;
+  root.innerHTML = '<div class="empty">Cargando clientas…</div>';
+  try { await loadAll(); } catch (e) { root.innerHTML = `<div class="empty">No se pudieron cargar los datos: ${esc(e.message)}</div>`; return; }
+  render();
+}
+
+start();
+</script>
+</body>
+</html>
