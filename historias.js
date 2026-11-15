@@ -12,6 +12,7 @@ window.RebbeStory = (function () {
   const accent = () => (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#8B2A4C').trim();
 
   function stats(h) {
+    if (h.express) return { title: 'ENTRENO COMPLETADO', sub: 'Entreno exprés en casa', cols: [[`${h.duration}`, 'MINUTOS'], ['3', 'CIRCUITOS'], [h.completed ? '100%' : '✓', 'HECHO']] };
     if (h.type === 'hiit') return { title: 'HIIT COMPLETADO', sub: h.name, cols: [[`${h.duration}`, 'MINUTOS'], ['HIIT', 'TIPO'], [h.completed ? '100%' : '✓', 'HECHO']] };
     if (h.type === 'activity') return { title: 'ACTIVIDAD COMPLETADA', sub: `${h.name}`, cols: [[`${h.duration}`, 'MINUTOS'], [h.name.length > 9 ? h.name.slice(0, 8) + '…' : h.name, 'ACTIVIDAD']] };
     const vol = h.volume >= 10000 ? `${(h.volume / 1000).toFixed(1).replace('.', ',')}t` : String(Math.round(h.volume)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');

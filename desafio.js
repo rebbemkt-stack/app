@@ -35,7 +35,18 @@ const CHALLENGE = {
   // Indicaciones del desafío (una frase por punto). Rebe las añade aquí.
   rules: [],
 
-  training: null,
+  training: `
+    <div class="card">
+      <div class="card-label">Tu entreno del desafío</div>
+      <div class="card-title">Fuerza + cardio 💪</div>
+      <div class="club-body"><ul class="chal-rules">
+        <li><b>Fuerza:</b> sigue tu plan en la pestaña <b>Entreno</b>. Elige 3 o 5 días (o principiante, 2 o 4 días) tocando la etiqueta de arriba. Siempre intercalando inferiores y superiores.</li>
+        <li><b>¿Entrenas en casa sin material?</b> Tienes el <b>Exprés en casa</b> de 30 min en Entreno › HIIT. Cuenta como entreno de la semana.</li>
+        <li><b>Cardio de 20 min:</b> en Entreno › HIIT tienes cinta, bike y escalera en nivel principiante e intermedio. Al terminarlo, el cardio del día se marca solo.</li>
+      </ul></div>
+      <button class="start-workout-btn" style="margin:14px 0 8px" onclick="showSection('train')">Ir a mi entreno</button>
+      <button class="btn-ghost" style="width:100%" onclick="goHiit()">Ver HIIT y exprés en casa</button>
+    </div>`,
 
   diet: {
     title: 'Plan de alimentación del desafío',
@@ -280,10 +291,11 @@ const CHALLENGE = {
 
   const manualLog = () => loadJSON(TASKS_KEY, {});
   // A HIIT or another activity of 20 min or more saved that day
-  const cardioEntry = date => activeHistory().find(h => h.date === date && (h.type === 'hiit' || h.type === 'activity') && (h.duration || 0) >= 20);
+  // (el exprés en casa no cuenta como cardio: es su entreno de fuerza del día)
+  const cardioEntry = date => activeHistory().find(h => h.date === date && !h.express && (h.type === 'hiit' || h.type === 'activity') && (h.duration || 0) >= 20);
   const cardioOn = date => !!cardioEntry(date);
-  // Gym workouts of her plan done in the week (Mon–Sun) of a date
-  const weekWorkouts = (date = today()) => workoutHistory().filter(h => weekStart(h.date) === weekStart(date)).length;
+  // Workouts of her plan (and the exprés en casa) done in the week (Mon–Sun) of a date
+  const weekWorkouts = (date = today()) => activeHistory().filter(h => (!h.type || h.express) && weekStart(h.date) === weekStart(date)).length;
   function taskDone(t, date) {
     const daily = getDaily(date);
     if (t.auto === 'water' && (daily.water || 0) >= WATER_GOAL) return true;

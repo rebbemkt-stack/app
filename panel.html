@@ -103,7 +103,7 @@ const cfg = window.REBBE_CONFIG || {};
 const root = document.getElementById('root');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const PLAN_LABELS = { gym_3d: 'Gimnasio · 3 días', gym_5d: 'Gimnasio · 5 días', casa_3d: 'Casa · 3 días', casa_5d: 'Casa · 5 días', personal: '⭐ Plan personal' };
+const PLAN_LABELS = { gym_3d: 'Gimnasio · 3 días', gym_5d: 'Gimnasio · 5 días', gym_pri_2d: 'Gimnasio · Principiante 2 días', gym_pri_4d: 'Gimnasio · Principiante 4 días', gym_prib_2d: 'Gimnasio · Principiante rápido 2 días', gym_prib_4d: 'Gimnasio · Principiante rápido 4 días', casa_3d: 'Casa · 3 días', casa_5d: 'Casa · 5 días', personal: '⭐ Plan personal' };
 const MOODS = ['⚡ Con energía', '😌 Tranquila', '😴 Cansada', '😕 Sin ganas', '🤕 Con molestias'];
 const MONTH_AREAS = ['Cuerpo y entreno', 'Alimentación', 'Mente y emociones', 'Autoestima', 'Relaciones', 'Trabajo y propósito', 'Descanso y sueño', 'Diversión y hobbies'];
 const DATA_KEYS = ['bloco_history', 'bloco_level', 'rebbe_daily', 'rebbe_measures', 'rebbe_months', 'rebbe_name', 'rebbe_start', 'rebbe_diet'];
@@ -138,7 +138,7 @@ function summary(p) {
   const workouts = hist.filter(h => !h.isRest && !h.type && h.doneSets > 0);
   const hiits = hist.filter(h => h.type === 'hiit');
   const plan = d.bloco_level || p.plan;
-  const goal = plan && plan.includes('5d') ? 5 : 3;
+  const goal = (plan && +((plan.match(/_(\d)d$/) || [])[1])) || 3;
   const ws = weekStart(todayStr());
   const thisWeek = workouts.filter(h => weekStart(h.date) === ws).length;
   const lastWorkout = hist.filter(h => !h.isRest && (h.type || h.doneSets > 0)).map(h => h.date).sort().pop() || null;

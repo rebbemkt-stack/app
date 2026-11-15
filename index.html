@@ -1541,6 +1541,8 @@
 .diet-shop { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 6px 0; cursor: pointer; }
 .diet-shop input { width: 18px; height: 18px; accent-color: var(--accent); }
 .diet-shop:has(input:checked) { color: var(--muted); text-decoration: line-through; }
+/* Elegir plan: separador de grupo */
+.ob-group { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 18px 4px 8px; }
 /* Notas por ejercicio */
 .ex-mynote { width: 100%; box-sizing: border-box; margin: 4px 0 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 11px; font: inherit; font-size: 13px; color: var(--text); resize: vertical; }
 .ex-mynote:focus { outline: none; border-color: var(--accent); }
@@ -1940,60 +1942,96 @@ const WORKOUTS = {
     locationLabel: 'Gimnasio',
     emoji: '🏋️‍♀️',
     info: `${CADENCE_INFO} Las repeticiones serán siempre de <b>10-12</b>, salvo que se indique otra cosa.`,
-    A: { title: 'Entreno A', focus: 'Inferiores', sub: 'Glúteo y cuádriceps',
-      stretches: [['Glúteos', 'JPm02GANw8I'], ['Cuádriceps', 'U9wbfpXz1uc'], ['Movilidad de cadera y tobillo', 'dJktlnSirxo'], ['Movilidad de posteriores / cadera 1', 'cBYkbTm0Fc8']],
+    A: { title: 'Entreno A', focus: 'Inferiores', sub: 'Glúteo y posterior',
+      stretches: [['Glúteos', 'JPm02GANw8I'], ['Posteriores unilateral', 'wf1gTJ0Aol0'], ['Cuádriceps', 'U9wbfpXz1uc'], ['Movilidad de posteriores / cadera', 'hSvtjWHbaQE']],
       blocks: [
         { sets: 4, items: [
-          { name: 'Sentadilla abducida en step', muscle: 'Glúteos', reps: '10-12', video: 'WdcZOb1DqLM', note: 'Haz 20 repeticiones en la primera serie con una carga ligera (calentamiento).' },
-          { name: 'Sentadilla corta', muscle: 'Cuádriceps', reps: '20', video: 'tqvbYfiafsA', note: 'Haz siempre 20 repeticiones.' },
+          { name: 'Zancada con miniband', muscle: 'Glúteos', reps: '10-12', video: 'YRHGCdUAVv4', note: 'Haz 20 repeticiones en la primera serie con una carga ligera (calentamiento). En las siguientes, pausa de 2 s abajo en cada repetición.' },
+          { name: 'Sentadilla sumo en Smith', muscle: 'Glúteos', reps: '10-12', video: 'dNfP-BP7z1k', note: 'Primera serie: 20 repeticiones con carga ligera. En las siguientes, pausa de 2 s abajo en cada repetición.' },
         ]},
-        { sets: 3, items: [{ name: 'Leg press 45 abducido', muscle: 'Glúteos', reps: '10-12', video: 'Y10UWklEAjA' }] },
-        { sets: 3, items: [{ name: 'Máquina extensora', muscle: 'Cuádriceps', reps: '10-12', video: '3rBdobdvhG0', note: 'Pausa de 2 s en el punto máximo de contracción (arriba). Después, reduce la carga y haz 10 repeticiones más seguidas.' }] },
         { sets: 3, items: [
-          { name: 'Silla flexora', muscle: 'Isquiotibiales', reps: '10-12', video: 'QMth-6GapxY' },
-          { name: 'Peso muerto rumano con halteres', muscle: 'Isquiotibiales', reps: '10-12', video: '3x8oJxQA6Cs' },
+          { name: 'Sentadilla búlgara', muscle: 'Glúteos', reps: '10-12', video: '0N4PYpG5HP4' },
+          { name: 'Step up', muscle: 'Glúteos', reps: '10-12', video: '9h4Q0CAevi0' },
         ]},
-        { sets: 3, items: [{ name: 'Gemelos de pie', muscle: 'Pantorrillas', reps: '20', video: 'QeBzBq-EK9E', note: 'Haz siempre 20 repeticiones, con una pausa de 2 s arriba en cada repetición.' }] },
+        { sets: 3, items: [
+          { name: 'Mesa flexora', muscle: 'Isquiotibiales', reps: '10-12', video: '_I1dhecT3Rs' },
+          { name: 'Peso muerto rumano', muscle: 'Isquiotibiales', reps: '10-12', video: 'v5fLpokGDBc' },
+        ]},
+        { sets: 3, items: [{ name: 'Silla flexora', muscle: 'Isquiotibiales', reps: '10-12', video: 'QMth-6GapxY', note: 'En la última serie, reduce la carga y haz 15 repeticiones más.' }] },
       ]},
     B: { title: 'Entreno B', focus: 'Superiores', sub: 'Superiores completo',
-      stretches: [['Dorsal en espaldera', '_mqQY02bk00'], ['Dorsal en espaldera unilateral', 'mRYfWDVxljI'], ['Tríceps y hombros', 'IF_3jjFkbR0'], ['Movilidad de hombros 2', 'u-ioMBhtsGM']],
+      stretches: [['Dorsal (espalda unida)', '_mqQY02bk00'], ['Dorsal (espalda unida) unilateral', 'mRYfWDVxljI'], ['Movilidad lumbar', 'FqTKwuby66w'], ['Tríceps', 'OsvUebTXOWs']],
       blocks: [
         { sets: 3, items: [
-          { name: 'Press inclinado con halteres', muscle: 'Pecho', reps: '10-12', video: '-GSLCBw3NQc' },
+          { name: 'Jalón al pecho con triángulo', muscle: 'Espalda', reps: '10-12', video: 'pbH_cBEdot0' },
           { name: 'Remo inclinado agarre cerrado', muscle: 'Espalda', reps: '10-12', video: '5rm2-6RQEIo' },
         ]},
         { sets: 3, items: [
-          { name: 'Flexiones de brazos con apoyo', muscle: 'Pecho', reps: '10-12', video: 'YPNlJSniaK4' },
-          { name: 'Jalón al pecho abierto', muscle: 'Espalda', reps: '10-12', video: 't_snsRHYCVw' },
-        ]},
-        { sets: 3, items: [
           { name: 'Jalón al pecho con agarre supino', muscle: 'Espalda', reps: '10-12', video: 'D0VSdfe1q_Q' },
-          { name: 'Curl de bíceps con barra', muscle: 'Bíceps', reps: '10-12', video: 'CDbbCMsp448' },
+          { name: 'Curl de bíceps con halteres', muscle: 'Bíceps', reps: '10-12', video: 'CDbbCMsp448' },
         ]},
         { sets: 3, items: [
-          { name: 'Tríceps cuerda', muscle: 'Tríceps', reps: '10-12', video: 'WTKIQveepuQ' },
+          { name: 'Press inclinado', muscle: 'Pecho', reps: '10-12', video: '-GSLCBw3NQc' },
           { name: 'Elevación lateral', muscle: 'Hombros', reps: '10-12', video: 'jiQZ5BzGLY4' },
         ]},
         { sets: 3, items: [
-          { name: 'Tríceps francés', muscle: 'Tríceps', reps: '10-12', video: 'dVHgNLng_ZQ' },
+          { name: 'Tríceps cuerda', muscle: 'Tríceps', reps: '10-12', video: 'WTKIQveepuQ' },
           { name: 'Press de hombros agarre cerrado', muscle: 'Hombros', reps: '10-12', video: 'XYyydFXrsns' },
         ]},
         { sets: 3, items: [
-          { name: 'Abdominal supra piernas extendidas', muscle: 'Abdomen', reps: '15', video: 'KCmN5jIKwBo', note: 'Haz siempre 15 repeticiones.' },
-          { name: 'Navaja alternada', muscle: 'Abdomen', reps: '15', video: 'csFAWfb46so', note: '15 repeticiones por lado (30 en total).' },
+          { name: 'Tríceps con barra recta', muscle: 'Tríceps', reps: '10-12', video: 'BVwlbtrGNIE' },
+          { name: 'Tríceps francés', muscle: 'Tríceps', reps: '10-12', video: 'oJlNM3speNM' },
+        ]},
+        { sets: 3, items: [
+          { name: 'Remador', muscle: 'Abdomen', reps: '15', video: '62r7xukJzeI', note: 'Haz siempre 15 repeticiones.' },
+          { name: 'Abdominal infra piernas extendidas', muscle: 'Abdomen', reps: '15', video: 'zaJRy7PcQQ0', note: 'Haz siempre 15 repeticiones.' },
         ]},
       ]},
-    C: { title: 'Entreno C', focus: 'Inferiores', sub: 'Posterior',
-      stretches: [['Glúteos', 'JPm02GANw8I'], ['Posteriores unilateral', 'wf1gTJ0Aol0'], ['Movilidad de posteriores / cadera', 'hSvtjWHbaQE'], ['Movilidad de posteriores / cadera 1', 'cBYkbTm0Fc8']],
+    C: { title: 'Entreno C', focus: 'Inferiores', sub: 'Glúteo y cuádriceps',
+      stretches: [['Cuádriceps', 'U9wbfpXz1uc'], ['Glúteos', 'JPm02GANw8I'], ['Movilidad de cadera', 'V6Z9_asFeIM'], ['Movilidad de cadera y tobillo', 'dJktlnSirxo']],
       blocks: [
-        { sets: 4, items: [{ name: 'Sentadilla en máquina Smith', muscle: 'Cuádriceps', reps: '10-12', video: 'lxW7Fj0RXEA', note: 'Primera serie: 20 repeticiones con carga ligera (calentamiento). En las siguientes, pausa de 2 s abajo en cada repetición.' }] },
+        { sets: 4, items: [{ name: 'Máquina extensora', muscle: 'Cuádriceps', reps: '10-12', video: '3rBdobdvhG0', note: 'Haz 20 repeticiones en la primera serie con una carga ligera (calentamiento). En las siguientes, al terminar reduce la carga y haz 20 repeticiones parciales más (de la mitad hacia arriba).' }] },
         { sets: 3, items: [
-          { name: 'Leg horizontal unilateral', muscle: 'Cuádriceps', reps: '10-12', video: '0cM3XMK83kk' },
-          { name: 'Zancada', muscle: 'Glúteos', reps: '10-12', video: 'M_Wf9MQHYUg' },
+          { name: 'Hack machine', muscle: 'Cuádriceps', reps: '10-12', video: 'AOXYyRgL8Zg' },
+          { name: 'Sentadilla goblet', muscle: 'Glúteos', reps: '20', video: '35KzTqXg1Ac', note: 'Haz siempre 20 repeticiones.' },
         ]},
-        { sets: 3, items: [{ name: 'Leg horizontal abducido', muscle: 'Glúteos', reps: '10-12', video: 'DkioGcc1mUE' }] },
-        { sets: 3, items: [{ name: 'Mesa flexora', muscle: 'Isquiotibiales', reps: '10-12', video: '_I1dhecT3Rs' }] },
+        { sets: 3, items: [{ name: 'Zancada en Smith', muscle: 'Glúteos', reps: '10-12', video: 'Kd9g5XevZq0' }] },
+        { sets: 3, items: [
+          { name: 'Leg press 45 abducido', muscle: 'Glúteos', reps: '10-12', video: 'Y10UWklEAjA' },
+          { name: 'Sentadilla con salto', muscle: 'Cuádriceps', reps: '15', video: 'mNSdRb4VrP4', note: 'Haz siempre 15 repeticiones.' },
+        ]},
         { sets: 3, items: [{ name: 'Gemelos sentada', muscle: 'Pantorrillas', reps: '10-12', video: 'gxi3W1u0EY0' }] },
+      ]},
+  },
+
+  // Principiantes (2 o 4 días): mismos ejercicios en las dos versiones; la "rápida" los hace por parejas (BISET)
+  gym_pri: {
+    rest: 60,
+    locationLabel: 'Gimnasio',
+    levelPrefix: 'Principiante',
+    emoji: '🌱',
+    info: `${CADENCE_INFO} Las repeticiones serán siempre de <b>12-15</b>, con <b>1 min de descanso</b> entre series.`,
+    A: { title: 'Entreno A', focus: 'Inferiores', sub: 'Inferiores completo',
+      stretches: [['Glúteos', 'JPm02GANw8I'], ['Cuádriceps', 'U9wbfpXz1uc'], ['Posteriores unilateral', 'wf1gTJ0Aol0'], ['Movilidad de cadera y tobillo', 'dJktlnSirxo']],
+      blocks: [
+        { sets: 3, items: [{ name: 'Sentadilla goblet', muscle: 'Glúteos', reps: '12-15', video: 'nDjGq88G_Mm', note: 'Haz 15 repeticiones en la primera serie con una carga ligera (calentamiento). Baja con control, con el pecho erguido.' }] },
+        { sets: 3, items: [{ name: 'Máquina extensora', muscle: 'Cuádriceps', reps: '12-15', video: '3rBdobdvhG0' }] },
+        { sets: 3, items: [{ name: 'Mesa flexora', muscle: 'Isquiotibiales', reps: '12-15', video: '_I1dhecT3Rs' }] },
+        { sets: 3, items: [{ name: 'Leg press 45', muscle: 'Cuádriceps', reps: '12-15', video: 'uQ_vrczFIMs' }] },
+        { sets: 3, items: [{ name: 'Máquina abductora', muscle: 'Glúteos', reps: '12-15', video: '2k86MJMZGxg' }] },
+        { sets: 3, items: [{ name: 'Gemelos en máquina', muscle: 'Pantorrillas', reps: '15', video: 'VZ7SGkY1mck', note: 'Haz siempre 15 repeticiones, con una pausa de 2 s arriba.' }] },
+      ]},
+    B: { title: 'Entreno B', focus: 'Superiores', sub: 'Superiores completo + abdomen',
+      stretches: [['Dorsal (espalda unida)', '_mqQY02bk00'], ['Tríceps y hombros', 'IF_3jjFkbR0'], ['Movilidad de hombros', '9A8moXQWPTw'], ['Movilidad lumbar', 'FqTKwuby66w']],
+      blocks: [
+        { sets: 3, items: [{ name: 'Jalón al pecho abierto', muscle: 'Espalda', reps: '12-15', video: '28KqPjsH464', note: 'Haz 15 repeticiones en la primera serie con una carga ligera (calentamiento).' }] },
+        { sets: 3, items: [{ name: 'Remo bajo con triángulo', muscle: 'Espalda', reps: '12-15', video: 'SC-6bCBj_Fa' }] },
+        { sets: 3, items: [{ name: 'Press plano con halteres', muscle: 'Pecho', reps: '12-15', video: 'c4fc34dekaQ' }] },
+        { sets: 3, items: [{ name: 'Press de hombros con halteres', muscle: 'Hombros', reps: '12-15', video: 'YM_5ml7Y0io' }] },
+        { sets: 3, items: [{ name: 'Curl de bíceps en polea', muscle: 'Bíceps', reps: '12-15', video: 'imBBlIMrkDI' }] },
+        { sets: 3, items: [{ name: 'Tríceps cuerda', muscle: 'Tríceps', reps: '12-15', video: 'Cj-LWQgsgxs' }] },
+        { sets: 3, items: [{ name: 'Abdominal supra', muscle: 'Abdomen', reps: '15', video: 'cDPBAEbB66w', note: 'Haz siempre 15 repeticiones.' }] },
+        { sets: 3, items: [{ name: 'Plancha', muscle: 'Abdomen', reps: '20-30 s', video: 'YT6xm5JQPqI', note: 'Aguanta 20-30 segundos. Si lo necesitas, apoya las rodillas.' }] },
       ]},
   },
 
@@ -2059,8 +2097,21 @@ const WORKOUTS = {
   },
 };
 
-// Semana según los días elegidos: 3 días = A·B·C, 5 días = A·B·A·B·C
-const WEEK_SCHEDULES = { 3: ['A', 'B', 'C'], 5: ['A', 'B', 'A', 'B', 'C'] };
+
+// Versión rápida de principiantes: los mismos ejercicios, por parejas (BISET)
+const pair = (w, groups) => ({ ...w, blocks: groups.map(g => ({ sets: 3, items: g.map(i => w.blocks[i].items[0]) })) });
+WORKOUTS.gym_prib = {
+  ...WORKOUTS.gym_pri,
+  levelPrefix: 'Principiante rápido',
+  emoji: '⚡',
+  info: `${CADENCE_INFO} Las repeticiones serán siempre de <b>12-15</b>, con <b>1 min de descanso</b> después de cada serie (o de cada BISET).`,
+  A: pair(WORKOUTS.gym_pri.A, [[0], [1, 2], [3, 4], [5]]),
+  B: pair(WORKOUTS.gym_pri.B, [[0, 2], [1, 3], [4, 5], [6, 7]]),
+};
+
+// Semana según los días elegidos, siempre intercalando inferiores y superiores.
+// 3 días = A·B·C · 5 días = A·B·C·B·A · principiantes: 2 días = A·B · 4 días = A·B·A·B
+const WEEK_SCHEDULES = { 2: ['A', 'B'], 3: ['A', 'B', 'C'], 4: ['A', 'B', 'A', 'B'], 5: ['A', 'B', 'C', 'B', 'A'] };
 
 // Convierte los bloques en la lista de ejercicios que usa la app.
 // Un BISET se convierte en dos tarjetas (1A y 1B): solo la segunda lanza el descanso.
@@ -2106,7 +2157,7 @@ function buildPlan(loc, nDays) {
   return {
     rest: base.rest,
     locationLabel: base.locationLabel,
-    levelLabel: `${nDays} días`,
+    levelLabel: `${base.levelPrefix ? base.levelPrefix + ' · ' : ''}${nDays} días`,
     emoji: base.emoji,
     info: base.info,
     days,
@@ -2116,6 +2167,10 @@ function buildPlan(loc, nDays) {
 const PLANS = {
   gym_3d: buildPlan('gym', 3),
   gym_5d: buildPlan('gym', 5),
+  gym_pri_2d: buildPlan('gym_pri', 2),
+  gym_pri_4d: buildPlan('gym_pri', 4),
+  gym_prib_2d: buildPlan('gym_prib', 2),
+  gym_prib_4d: buildPlan('gym_prib', 4),
   casa_3d: buildPlan('casa', 3),
   casa_5d: buildPlan('casa', 5),
 };
@@ -2139,7 +2194,109 @@ const HIIT_FULLBODY_EXERCISES = [
   ['Abdominal remador', 'caIdArZfijk'],
 ];
 
+// HIIT de 20 min (cinta, bike, escalera) en dos niveles: calentamiento, FUERTE + SUAVE repetido y vuelta a la calma
+const HIIT_RPE_INFO = 'Hazlo después del entreno o en días libres. La intensidad se mide por el RPE (esfuerzo de 1 a 10): <b>2-3</b> muy suave (puedes conversar) · <b>3-4</b> suave (respiras cómoda) · <b>7-8</b> fuerte (hablas con dificultad) · <b>8-9</b> muy fuerte (casi no puedes hablar).';
+const hiit20 = (chip, equipo, nivel, [cal, fuerte, suave, calma]) => {
+  const pri = nivel === 'Principiante';
+  return {
+    chip, tag: pri ? 'Principiante' : 'Intermedio',
+    title: `HIIT en ${chip.toLowerCase()} · ${nivel}`,
+    sub: '20 minutos de intervalos',
+    meta: [['Nivel', nivel], ['Equipo', equipo], ['Frecuencia', pri ? '2 veces / semana' : '3 veces / semana']],
+    goal: HIIT_RPE_INFO,
+    phases: [
+      { name: 'Calentamiento', items: [{ label: 'Calentamiento', secs: pri ? 300 : 240, kind: 'easy', detail: cal, rpe: 'RPE 3-4' }] },
+      { name: 'Intervalos', repeat: pri ? 6 : 7, items: [
+        { label: 'Fuerte', secs: pri ? 30 : 45, kind: 'work', detail: fuerte, rpe: pri ? 'RPE 7-8' : 'RPE 8-9' },
+        { label: 'Suave', secs: pri ? 90 : 75, kind: 'easy', detail: suave, rpe: 'RPE 3-4' },
+      ]},
+      { name: 'Vuelta a la calma', items: [{ label: 'Vuelta a la calma', secs: pri ? 180 : 120, kind: 'easy', detail: calma, rpe: 'RPE 2-3' }] },
+    ],
+    tips: HIIT_TIPS_CARDIO,
+  };
+};
+
+// Entreno exprés en casa (30-35 min, sin material): circuitos por tiempo, 40 s de trabajo / 20 s de descanso
+const expressCircuit = (name, list) => ({ name, repeat: 2, restBetween: 20, items: list.flatMap(([label, v, detail]) => [
+  { label, secs: 40, kind: 'work', detail, video: yt(v) },
+  { label: 'Descanso', secs: 20, kind: 'rest', detail: 'Prepárate para el siguiente' },
+]).slice(0, -1) });
+const EXPRESS_CASA = {
+  chip: 'Exprés casa', tag: '30 min', focus: 'Exprés en casa', countsAsWorkout: true,
+  title: 'Entreno exprés en casa',
+  sub: 'Metabólico, solo con tu peso',
+  meta: [['Material', 'Sin material'], ['Formato', '3 circuitos'], ['Frecuencia', '3 veces / semana']],
+  goal: 'Cada circuito: <b>40 s de trabajo y 20 s de descanso</b>, 2 vueltas. 1 min de descanso entre circuitos. Hazlo en días no seguidos. Cuenta como entreno de la semana.',
+  phases: [
+    { name: 'Calentamiento', items: [
+      ['Marcha en el sitio con brazos', 'WNthYRB9QX4'], ['Círculos de cadera', 'zUoi-0dTA4s'], ['Sentadilla al aire (sin salto)', 'yluv--sqkNo'],
+      ['Rodillas arriba alternas (sin impacto)', 'H6U5EKbiY7A'], ['Jumping jacks', 'CcSADh4EbXc'],
+    ].flatMap(([label, v]) => [{ label, secs: 40, kind: 'easy', video: yt(v) }, { label: 'Cambia de ejercicio', secs: 20, kind: 'rest' }]) },
+    expressCircuit('Circuito 1 · Piernas y glúteos', [
+      ['Sentadilla con salto', '-kbKBjUU-1A', 'Aterriza suave. Sin impacto: sentadilla y sube de puntillas.'],
+      ['Zancadas alternas', 'yMO-1RN_SQU', 'Baja hasta que la rodilla de atrás casi toque el suelo, tronco recto.'],
+      ['Puente de glúteo', '4eb9jYlrfLA', 'Pausa de 1 s arriba apretando los glúteos.'],
+      ['Sentadilla sumo con pulsos', 'NxvAR8w3gbQ', 'Pies abiertos, puntas hacia fuera. Pequeños rebotes sin subir del todo.'],
+    ]),
+    { name: 'Descanso', items: [{ label: 'Descanso entre circuitos', secs: 60, kind: 'rest', detail: 'Respira y bebe agua' }] },
+    expressCircuit('Circuito 2 · Cardio y cuerpo completo', [
+      ['Burpee', 'ON3ZKhn-T0Q', 'Ritmo constante. Sin impacto: lleva los pies atrás de uno en uno.'],
+      ['Mountain climbers (escaladores)', 'XWlDAy4_Dvw', 'Cadera alineada con los hombros, rodillas al pecho rápido.'],
+      ['Skipping (rodillas altas)', 'mMR_UnbaE0c', 'Rodillas a la altura de la cadera. Sin impacto: marcha rápida.'],
+      ['Plancha con toque de hombros', 'jhS66I0TwTQ', 'Que no se balancee la cadera. Puedes apoyar las rodillas.'],
+    ]),
+    { name: 'Descanso', items: [{ label: 'Descanso entre circuitos', secs: 60, kind: 'rest', detail: 'Respira y bebe agua' }] },
+    expressCircuit('Circuito 3 · Glúteos y abdomen', [
+      ['Saltos de patinador', 'bkSnG-TFqpg', 'Aterriza sobre una pierna. Sin impacto: paso lateral con flexión de rodilla.'],
+      ['Plancha frontal', 'dYlv41hbXFI', 'Sobre los antebrazos, abdomen y glúteos apretados.'],
+      ['Abdominal bicicleta', 'dYxamPVcKvk', 'Codo hacia la rodilla contraria sin tirar del cuello.'],
+      ['Patada de glúteo en cuadrupedia', 'dbqagbN6gNs', '20 s con cada pierna. Talón hacia el techo sin arquear la espalda.'],
+    ]),
+    { name: 'Estiramientos', items: [
+      { label: 'Glúteos (figura 4)', secs: 60, kind: 'easy', detail: '30 s cada lado', video: yt('HfWa2Gf-T7c') },
+      { label: 'Cuádriceps de pie', secs: 60, kind: 'easy', detail: '30 s cada lado', video: yt('dqEf0GMn7hc') },
+      { label: 'Posteriores (isquiotibiales)', secs: 60, kind: 'easy', detail: '30 s cada lado', video: yt('Oyn36r4xUhg') },
+      { label: 'Postura del niño', secs: 30, kind: 'easy', video: yt('PC1IkjO1k5Q') },
+    ]},
+  ],
+  tips: ['Si tienes molestias en rodillas o vecinos abajo, haz la versión sin impacto.', ...HIIT_TIPS_CARDIO],
+};
+
+// Tabata en casa (peso corporal): 8 ejercicios × 20 s de trabajo / 10 s de descanso = 1 vuelta de 4 min; 4 vueltas con 1 min entre ellas
+const TABATA_CASA = {
+  chip: 'Tabata', tag: 'Casa · 19 min',
+  title: 'Tabata en casa',
+  sub: 'Cuerpo completo, solo con tu peso',
+  meta: [['Material', 'Sin material'], ['Formato', '4 vueltas de 4 min']],
+  goal: 'Haz los 8 ejercicios seguidos: <b>20 s de trabajo y 10 s de descanso</b>. Eso es 1 vuelta (4 min). Haz 4 vueltas con 1 min de descanso entre ellas. Cuenta como cardio del día.<br><br>🎵 ¿Con música tabata? <a href="https://open.spotify.com/playlist/4IaZuNZ4qlE5EaVENrKLfh" target="_blank" rel="noopener">Spotify</a> · <a href="https://www.youtube.com/playlist?list=PL4-GQcafo7NtoaC0GwIdRHx9Lct2nxVyN" target="_blank" rel="noopener">YouTube</a>',
+  stretches: [['Glúteos', 'JPm02GANw8I'], ['Cuádriceps', 'U9wbfpXz1uc'], ['Movilidad de cadera y tobillo', 'dJktlnSirxo'], ['Movilidad de posteriores / cadera 1', 'cBYkbTm0Fc8']],
+  phases: [
+    { name: 'Vuelta', repeat: 4, restBetween: 60, items: [
+      ['Sentadilla con salto', 'mNSdRb4VrP4', 'Salta con fuerza y aterriza suave. Sin impacto: sentadilla rápida subiendo de puntillas.'],
+      ['Abdominal supra', 'cDPBAEbB66w', 'Sube el tronco sin tirar del cuello.'],
+      ['Carrera estacionaria', 'InCB4a6nPBY', 'Lo más rápido que puedas, en la punta de los pies, braceando.'],
+      ['Zancada atrás alternada', 'WiHgwh0u2BM', 'Alterna las piernas, con el tronco recto.'],
+      ['Burpee', 'eAq2O-NVoX0', 'Ritmo constante. Sin impacto: lleva los pies atrás de uno en uno.'],
+      ['Plancha alta', 'Gv0GCZl22F0', 'Brazos extendidos, abdomen y glúteos apretados.'],
+      ['Sentadilla corta', 'tqvbYfiafsA', 'Movimiento corto y rápido, sin subir del todo.'],
+      ['Abdominal bicicleta', 'ilQxAhe55wY', 'Lleva el codo hacia la rodilla contraria.'],
+    ].flatMap(([label, v, detail]) => [
+      { label, secs: 20, kind: 'work', detail, video: yt(v) },
+      { label: 'Descanso', secs: 10, kind: 'rest' },
+    ]) },
+  ],
+  tips: ['Si tienes molestias en rodillas o vecinos abajo, haz la versión sin impacto.', ...HIIT_TIPS_CARDIO],
+};
+
 const HIIT_SESSIONS = {
+  casa_express: EXPRESS_CASA,
+  tabata: TABATA_CASA,
+  cinta_pri: hiit20('Cinta', 'Cinta de correr', 'Principiante', ['Camina a ritmo cómodo, inclinación 1-2 %', 'Caminata rápida con inclinación 6-8 % (o trote suave), sin agarrarte', 'Camina despacio, inclinación 0-1 %, recupera el aliento', 'Camina despacio y baja el ritmo poco a poco']),
+  cinta_int: hiit20('Cinta', 'Cinta de correr', 'Intermedio', ['Camina rápido y termina con 1 min de trote suave', 'Corre a ritmo fuerte (o caminata con inclinación 10-12 %)', 'Camina a ritmo cómodo, sin parar', 'Camina despacio hasta normalizar la respiración']),
+  bike_pri: hiit20('Bike', 'Bicicleta', 'Principiante', ['Pedalea con carga baja, 70-80 rpm', 'Sube un poco la carga y pedalea rápido, 90-100 rpm', 'Baja la carga y pedalea suave, 70 rpm', 'Pedalea suave con carga mínima']),
+  bike_int: hiit20('Bike', 'Bicicleta', 'Intermedio', ['Pedalea con carga baja y sube el ritmo poco a poco', 'Carga moderada-alta, pedalea a máxima velocidad (100+ rpm)', 'Carga baja, pedalea suave, 70 rpm', 'Pedalea suave con carga mínima']),
+  escalera_pri: hiit20('Escalera', 'Escalera', 'Principiante', ['Nivel bajo, sube a ritmo cómodo', 'Sube el nivel y acelera el paso, sin apoyar el peso en las manos', 'Baja el nivel y sube despacio', 'Nivel bajo, despacio, hasta normalizar la respiración']),
+  escalera_int: hiit20('Escalera', 'Escalera', 'Intermedio', ['Nivel bajo-medio, sube el ritmo poco a poco', 'Nivel alto, paso rápido y constante, tronco erguido', 'Nivel bajo, ritmo cómodo, sin parar', 'Nivel bajo, despacio, hasta normalizar la respiración']),
   fullbody: {
     chip: 'Fullbody',
     title: 'HIIT Fullbody',
@@ -2154,7 +2311,7 @@ const HIIT_SESSIONS = {
     tips: [],
   },
   cinta: {
-    chip: 'Cinta',
+    chip: 'Cinta sprints',
     title: 'HIIT en cinta',
     sub: 'Quema calórica y acondicionamiento',
     meta: [['Nivel', 'Intermedio'], ['Equipo', 'Cinta de correr'], ['Frecuencia', '2 veces / semana']],
@@ -2176,7 +2333,7 @@ const HIIT_SESSIONS = {
     tips: ['Ajusta la velocidad según el RPE (percepción de esfuerzo).', 'Mantén una postura erguida, sin apoyarte en el panel de la cinta.', ...HIIT_TIPS_CARDIO],
   },
   bici: {
-    chip: 'Bici',
+    chip: 'Bici sprints',
     title: 'HIIT en bici',
     sub: 'Intervalos para quemar calorías',
     meta: [['Nivel', 'Intermedio'], ['Equipo', 'Bicicleta estática'], ['Frecuencia', '2 veces / semana']],
@@ -2293,12 +2450,17 @@ try { const cached = storage.get('rebbe_personal_cache'); if (cached) registerPe
 
 const LEVEL_OPTIONS = {
   gym: [
-    { key: 'gym_3d', emoji: '3️⃣', title: '3 días por semana', desc: 'Día 1: Entreno A · Día 2: Entreno B · Día 3: Entreno C' },
-    { key: 'gym_5d', emoji: '5️⃣', title: '5 días por semana', desc: 'Entreno A · B · A · B · C' },
+    { key: 'gym_3d', emoji: '3️⃣', title: '3 días por semana', desc: 'Intercalado: A inferiores · B superiores · C inferiores' },
+    { key: 'gym_5d', emoji: '5️⃣', title: '5 días por semana', desc: 'Intercalado: A inferiores · B superiores · C inferiores · B superiores · A inferiores' },
+    { group: 'Si estás empezando' },
+    { key: 'gym_pri_2d', emoji: '🌱', title: 'Principiante · 2 días', desc: 'A inferiores · B superiores + abdomen. Ejercicio por ejercicio, 12-15 repeticiones.' },
+    { key: 'gym_pri_4d', emoji: '🌱', title: 'Principiante · 4 días', desc: 'A · B · A · B, intercalando inferiores y superiores.' },
+    { key: 'gym_prib_2d', emoji: '⚡', title: 'Principiante rápido · 2 días', desc: 'Los mismos ejercicios por parejas (BISET), para ir más rápido.' },
+    { key: 'gym_prib_4d', emoji: '⚡', title: 'Principiante rápido · 4 días', desc: 'A · B · A · B por parejas (BISET).' },
   ],
   casa: [
-    { key: 'casa_3d', emoji: '3️⃣', title: '3 días por semana', desc: 'Día 1: Entreno A · Día 2: Entreno B · Día 3: Entreno C' },
-    { key: 'casa_5d', emoji: '5️⃣', title: '5 días por semana', desc: 'Entreno A · B · A · B · C' },
+    { key: 'casa_3d', emoji: '3️⃣', title: '3 días por semana', desc: 'Intercalado: A inferiores · B superiores · C inferiores' },
+    { key: 'casa_5d', emoji: '5️⃣', title: '5 días por semana', desc: 'Intercalado: A inferiores · B superiores · C inferiores · B superiores · A inferiores' },
   ]
 };
 
@@ -2306,7 +2468,7 @@ function selectLocation(loc) {
   document.getElementById('obStep1').style.display = 'none';
   document.getElementById('obStep2').style.display = 'block';
   document.getElementById('obLocationLabel').textContent = loc === 'gym' ? 'Gimnasio' : 'Casa';
-  document.getElementById('obLevelCards').innerHTML = LEVEL_OPTIONS[loc].map(o => `
+  document.getElementById('obLevelCards').innerHTML = LEVEL_OPTIONS[loc].map(o => o.group ? `<div class="ob-group">${o.group}</div>` : `
     <div class="ob-card" onclick="selectLevel('${o.key}')">
       <div class="ob-card-emoji">${o.emoji}</div>
       <div class="ob-card-info">
@@ -3226,7 +3388,7 @@ function hiitTotalMinutes(sess) {
 function renderHiit() {
   document.getElementById('hiitSelector').innerHTML = Object.entries(HIIT_SESSIONS).map(([key, s]) => `
     <div class="day-chip ${key === currentHiit ? 'active' : ''}" onclick="selectHiit('${key}')">
-      <span style="font-size:10px;opacity:0.6">HIIT</span><br>${s.chip}
+      <span style="font-size:10px;opacity:0.6">${s.tag || 'HIIT'}</span><br>${s.chip}
     </div>`).join('');
 
   const s = HIIT_SESSIONS[currentHiit];
@@ -3360,7 +3522,7 @@ function finishHiit(completed) {
   const mins = Math.max(1, Math.round((Date.now() - r.startedAt) / 60000));
   const sess = HIIT_SESSIONS[r.key];
   const history = loadHistory();
-  const entry = { date: today(), type: 'hiit', level: 'hiit', day: r.key, name: sess.title, focus: 'HIIT', doneSets: 0, totalSets: 0, volume: 0, duration: mins, completed };
+  const entry = { date: today(), type: 'hiit', level: 'hiit', day: r.key, name: sess.title, focus: sess.focus || 'HIIT', doneSets: 0, totalSets: 0, volume: 0, duration: mins, completed, ...(sess.countsAsWorkout ? { express: true } : {}) };
   history.unshift(entry);
   saveHistory(history);
   renderHistory();
