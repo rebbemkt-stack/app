@@ -448,12 +448,16 @@
 
   /* Last session hint */
   .last-hint {
-    font-size: 9px;
-    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-dim);
     font-family: 'Poppins', sans-serif;
-    opacity: 0.7;
+    border-radius: 20px;
+    padding: 2px 7px;
     text-align: center;
-    margin-top: 2px;
+    margin-top: 4px;
+    line-height: 1.3;
   }
 
   /* PR badge */
@@ -1537,6 +1541,70 @@
 .diet-shop { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 6px 0; cursor: pointer; }
 .diet-shop input { width: 18px; height: 18px; accent-color: var(--accent); }
 .diet-shop:has(input:checked) { color: var(--muted); text-decoration: line-through; }
+/* Notas por ejercicio */
+.ex-mynote { width: 100%; box-sizing: border-box; margin: 4px 0 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 11px; font: inherit; font-size: 13px; color: var(--text); resize: vertical; }
+.ex-mynote:focus { outline: none; border-color: var(--accent); }
+.note-flag { color: var(--accent); font-weight: 600; }
+/* Otra actividad */
+.act-add-btn { display: block; width: 100%; margin: 10px 0 0; background: transparent; border: 1.5px dashed var(--accent); color: var(--accent); border-radius: var(--radius); padding: 12px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; }
+.act-add-btn span { display: block; font-size: 11px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+.act-delete { display: block; width: 100%; margin: 0 0 10px; background: none; border: none; color: var(--muted); font: inherit; font-size: 12px; text-decoration: underline; cursor: pointer; }
+.story-open-btn { width: 100%; margin-bottom: 10px; }
+.act-types { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.act-field { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+.act-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.act-row .chip { flex: 1; text-align: center; }
+/* Historias */
+.story-preview { display: block; width: 62%; max-width: 260px; margin: 0 auto 14px; border-radius: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+.story-actions { display: grid; gap: 8px; }
+.story-actions .start-workout-btn { margin: 0; }
+/* Desafío */
+.chal-banner { cursor: pointer; }
+.chal-back { margin-bottom: 10px; }
+.chal-hero { margin-bottom: 4px; }
+.chal-tabs { margin: 0 0 14px; }
+.chal-tabs .diet-opt { flex: 1; padding: 9px 13px; font-size: 13px; }
+.chal-today { display: flex; justify-content: space-between; align-items: center; }
+.chal-today-num { font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--accent); line-height: 1; }
+.chal-today-num span { font-family: 'Poppins', sans-serif; font-size: 13px; color: var(--muted); margin-left: 4px; }
+.chal-today-days { text-align: right; }
+.chal-today-days b { display: block; font-size: 22px; color: var(--accent); }
+.chal-today-days span { font-size: 11px; color: var(--muted); }
+.chal-check { flex-shrink: 0; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.chal-check.on { background: var(--accent); color: var(--bg2); }
+.chal-done { border-color: var(--accent); }
+.chal-dish { font-size: 13px; font-weight: 600; color: var(--muted); margin: 8px 0 2px; }
+.chal-swap { color: var(--accent); font-weight: 700; margin-right: 5px; }
+.chal-group summary { color: var(--accent); font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 5px; padding-left: 12px; list-style: none; }
+.chal-group summary::-webkit-details-marker { display: none; }
+.chal-group[open] summary { margin-bottom: 4px; }
+.chal-group-title { font-size: 12px; font-weight: 600; color: var(--text); padding-left: 12px; margin-bottom: 2px; }
+.chal-shop-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 12px 0 2px; }
+.chal-shop-title:first-child { margin-top: 0; }
+.chal-soon { text-align: center; padding: 28px 18px; }
+.chal-soon-emoji { font-size: 34px; margin-bottom: 8px; }
+.chal-rules { padding-left: 18px; font-size: 14px; line-height: 1.6; }
+.chal-rules li + li { margin-top: 8px; }
+.chal-daycard { display: flex; justify-content: space-between; align-items: center; }
+.chal-daynum { font-family: 'DM Serif Display', serif; font-size: 38px; color: var(--accent); line-height: 1; }
+.chal-daynum span { font-size: 20px; color: var(--muted); }
+.chal-task { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--border); cursor: pointer; }
+.card-label + .chal-task { border-top: none; padding-top: 2px; }
+.chal-task-check { width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
+.chal-task.on .chal-task-check { background: var(--accent); color: var(--bg2); }
+.chal-task-label { font-size: 14px; font-weight: 600; color: var(--text); word-spacing: 2px; }
+.chal-task.on .chal-task-label { color: var(--muted); text-decoration: line-through; }
+.chal-task-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.chal-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 12px 0 10px; }
+.chal-cell { aspect-ratio: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; background: var(--bg3); color: var(--muted); border: 1.5px solid transparent; }
+.chal-cell.full { background: var(--accent); color: var(--bg2); }
+.chal-cell.part { background: color-mix(in srgb, var(--accent) 35%, var(--bg2)); color: var(--bg2); }
+.chal-cell.future { opacity: .45; }
+.chal-cell.now { border-color: var(--accent); }
+.chal-legend { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.chal-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-left: 6px; }
+.chal-dot.full { background: var(--accent); margin-left: 0; }
+.chal-dot.part { background: color-mix(in srgb, var(--accent) 35%, var(--bg2)); }
 
 /* ── CONTENIDOS (cursos y clases) ── */
   .course-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
@@ -1722,6 +1790,7 @@
     <div class="day-info" id="dayInfo"></div>
     <div id="exerciseList"></div>
     <button class="finish-btn" onclick="finishWorkout()">Finalizar entreno</button>
+    <button class="act-add-btn" onclick="RebbeActivity.open()">＋ Registrar otra actividad<span>pilates, barre, clases, correr…</span></button>
   </div>
 
   <!-- HIIT -->
@@ -1750,6 +1819,7 @@
   <!-- EVOLUCIÓN / PREMIOS / CLUB -->
   <div class="section pad" id="sec-evo"></div>
   <div class="section pad" id="sec-diet"></div>
+  <div class="section pad" id="sec-challenge"></div>
   <div class="section pad" id="sec-club"></div>
 
   <div class="app-footer">© rebbe club ♡</div>
@@ -1806,6 +1876,7 @@
     <div class="modal-title" id="modalTitle"></div>
     <div class="modal-sub" id="modalSub"></div>
     <div class="modal-stat-grid" id="modalStats"></div>
+    <div id="modalExtra"></div>
     <button class="modal-close" onclick="closeModal()">Cerrar</button>
   </div>
 </div>
@@ -1848,6 +1919,9 @@
 <script src="account.js"></script>
 <script src="courses.js"></script>
 <script src="diet.js"></script>
+<script src="desafio.js"></script>
+<script src="actividades.js"></script>
+<script src="historias.js"></script>
 <script>
 // ─── WORKOUT DATA ────────────────────────────────────────────────────────────
 
@@ -2400,6 +2474,7 @@ function renderExercises() {
     const exS = session[ex.id] || {};
     const doneSets = Object.values(exS).filter(s => s.done).length;
     const isDone = doneSets >= ex.sets;
+    const myNote = getExNote(ex.name);
     const bisetClass = ex.bisetFirst ? 'biset-first' : ex.bisetSecond ? 'biset-second' : '';
     const bisetHint = ex.bisetFirst
       ? `<div class="ex-note">⚡ <b>BISET:</b> sin descanso, pasa directo a <b>${ex.partner}</b>. Descansas al terminar los dos.</div>`
@@ -2416,12 +2491,13 @@ function renderExercises() {
         <div class="exercise-num">${ex.num}</div>
         <div class="exercise-info">
           <div class="exercise-name">${ex.name}${ex.bisetFirst ? '<span class="biset-tag">BISET</span>' : ''}</div>
-          <div class="exercise-meta">${ex.muscle} · ${ex.sets}×${ex.reps}</div>
+          <div class="exercise-meta">${ex.muscle} · ${ex.sets}×${ex.reps}<span class="note-flag" id="noteflag-${ex.id}" style="display:${myNote ? 'inline' : 'none'}"> · 📝 nota</span></div>
         </div>
         <div class="exercise-badge ${isDone ? 'done' : ''}" id="badge-${ex.id}">${isDone ? '♥ ' : ''}${doneSets}/${ex.sets}</div>
       </div>
       <div class="exercise-body" id="body-${ex.id}">
         ${extra}
+        <textarea class="ex-mynote" rows="2" placeholder="📝 Tus notas: ajustes de la máquina, cómo te has sentido, qué peso probar la próxima vez…" onchange="saveExNote('${ex.id}', this.value)">${esc(myNote)}</textarea>
         <div class="sets-header"><div>SET</div><div>CARGA (kg)</div><div>REPS</div><div></div></div>
         ${Array.from({length: ex.sets}, (_,i) => renderSetRow(ex, i)).join('')}
         ${ex.bisetFirst ? '' : `<button class="rest-btn" onclick="startRestTimer(${plan.rest})">⏱ Descanso (${plan.rest}s)</button>`}
@@ -2469,7 +2545,7 @@ function renderSetRow(ex, i) {
   }
 
   const hintHtml = last
-    ? `<div class="last-hint">última vez: ${last.weight}kg${last.reps ? ' × ' + last.reps : ''}</div>`
+    ? `<div class="last-hint">Última vez: ${last.weight} kg${last.reps ? ' × ' + last.reps : ''}</div>`
     : '';
   const prHtml = `<div class="pr-badge ${s.isPR ? 'show' : ''}" id="pr-${ex.id}-${i}">🏆 ¡récord!</div>`;
 
@@ -2512,6 +2588,21 @@ function stepWeight(exId, i, delta) {
 function findExercise(exId) {
   const day = PLANS[currentLevel].days[currentDay];
   return day.exercises.find(e => e.id === exId);
+}
+
+// ─── PERSONAL NOTES PER EXERCISE (kept by exercise name, shown every time) ───
+
+function getExNote(name) { return (loadJSON('rebbe_ex_notes', {})[name] || '').trim(); }
+function saveExNote(exId, text) {
+  const ex = findExercise(exId);
+  if (!ex) return;
+  const all = loadJSON('rebbe_ex_notes', {});
+  const t = text.trim();
+  if (t) all[ex.name] = t; else delete all[ex.name];
+  saveJSON('rebbe_ex_notes', all);
+  const flag = document.getElementById(`noteflag-${exId}`);
+  if (flag) flag.style.display = t ? 'inline' : 'none';
+  showToast(t ? '📝 Nota guardada' : 'Nota borrada');
 }
 
 // Looks up, for a given exercise + set index, what was recorded the last time
@@ -2601,6 +2692,8 @@ function toggleSet(exId, i, totalSets) {
   if (!session[exId][i]) session[exId][i] = {};
   const wasDone = session[exId][i].done;
   session[exId][i].done = !wasDone;
+  // The workout clock starts with her first real set, not when she opens the day
+  if (!wasDone && !workoutStarted) startWorkout();
 
   // ─── Personal record check ───
   // When a set is marked as done, compare its weight against the best weight
@@ -2858,12 +2951,52 @@ function finishWorkout() {
       if (s.done) { done++; vol += (parseFloat(s.weight)||0)*(parseInt(s.reps)||0); }
       setsLog.push({ weight: s.weight || null, reps: s.reps || null, done: !!s.done, isPR: !!s.isPR });
     }
-    exercisesLog.push({ name: ex.name, sets: setsLog });
+    const note = getExNote(ex.name);
+    exercisesLog.push(note ? { name: ex.name, sets: setsLog, note } : { name: ex.name, sets: setsLog });
   });
-  const mins = workoutStart ? Math.floor((Date.now() - workoutStart) / 60000) : 0;
+
+  // Nothing marked: she only opened the workout to look. Close it without saving,
+  // so it doesn't count as a training day.
+  if (done === 0) {
+    if (!confirm('No has marcado ninguna serie. ¿Cerrar el entreno sin guardarlo?\n\n(No contará como entreno)')) return;
+    resetWorkoutState();
+    showToast('Entreno cerrado sin guardar');
+    return;
+  }
+
+  let mins = workoutStart ? Math.floor((Date.now() - workoutStart) / 60000) : 0;
   const history = loadHistory();
-  history.unshift({ date: today(), level: currentLevel, day: currentDay, name: day.name, focus: day.focus, doneSets: done, totalSets: total, volume: vol, duration: mins, exercises: exercisesLog });
+  let entry = { date: today(), level: currentLevel, day: currentDay, name: day.name, focus: day.focus, doneSets: done, totalSets: total, volume: vol, duration: mins, exercises: exercisesLog };
+
+  // Same workout already saved today (e.g. she pressed "Finalizar" halfway and then
+  // carried on): merge both into a single entry instead of saving it twice.
+  const prevIdx = history.findIndex(h => !h.type && !h.isRest && h.date === entry.date && h.level === entry.level && h.day === entry.day);
+  if (prevIdx >= 0) {
+    const prev = history[prevIdx];
+    const merged = exercisesLog.map(e => {
+      const old = (prev.exercises || []).find(x => x.name === e.name);
+      const sets = e.sets.map((s, i) => (s.done || !old || !old.sets[i]) ? s : old.sets[i]);
+      return { ...e, sets };
+    });
+    done = 0; vol = 0;
+    merged.forEach(e => e.sets.forEach(s => { if (s.done) { done++; vol += (parseFloat(s.weight)||0)*(parseInt(s.reps)||0); } }));
+    mins += prev.duration || 0;
+    entry = { ...entry, doneSets: done, volume: vol, duration: mins, exercises: merged };
+    history.splice(prevIdx, 1);
+  }
+  history.unshift(entry);
   saveHistory(history);
+  resetWorkoutState();
+  showToast(`¡Entreno guardado! ${done}/${total} series ♥`);
+  renderHistory();
+  renderStats();
+  renderWeekGrid();
+  updateStreak();
+  if (window.RebbeStory) setTimeout(() => RebbeStory.open(entry), 900);
+  setTimeout(() => checkAwards(), 3000); // after the "entreno guardado" toast
+}
+
+function resetWorkoutState() {
   releaseWakeLock();
   session = {};
   saveSession(session);
@@ -2874,13 +3007,7 @@ function finishWorkout() {
   document.getElementById('statTime').textContent = '00:00';
   const startBtn = document.getElementById('startWorkoutBtn');
   if (startBtn) startBtn.style.display = 'block';
-  showToast(`¡Entreno guardado! ${done}/${total} series ♥`);
   renderExercises();
-  renderHistory();
-  renderStats();
-  renderWeekGrid();
-  updateStreak();
-  setTimeout(() => checkAwards(), 3000); // after the "entreno guardado" toast
 }
 
 // ─── HISTORY ─────────────────────────────────────────────────────────────────
@@ -2893,8 +3020,20 @@ function renderHistory() {
     return;
   }
   container.innerHTML = history.map((h, i) => {
+    if (isEmptyWorkout(h)) return '';
     const d = new Date(h.date + 'T12:00:00');
     const dateStr = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+    if (h.type === 'activity') {
+      return `
+      <div class="history-item" onclick="showHistoryDetail(${i})">
+        <div class="history-date">${dateStr}</div>
+        <div class="history-title">${esc(h.emoji || '🤸')} ${esc(h.name)}</div>
+        <div class="history-pills">
+          <div class="history-pill pink">Otra actividad</div>
+          <div class="history-pill">${h.duration} min</div>
+        </div>
+      </div>`;
+    }
     if (h.isRest) {
       return `
       <div class="history-item" style="opacity:0.7">
@@ -2931,6 +3070,21 @@ function showHistoryDetail(idx) {
   if (!h || h.isRest) return;
   const d = new Date(h.date + 'T12:00:00');
   document.getElementById('modalSub').textContent = d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+  const extra = document.getElementById('modalExtra');
+  const notes = (h.exercises || []).filter(e => e.note);
+  extra.innerHTML = `
+    ${h.type === 'activity' && h.note ? `<div class="diet-note" style="margin:0 0 12px">📝 ${esc(h.note)}</div>` : ''}
+    ${notes.length ? `<div class="diet-note" style="margin:0 0 12px">${notes.map(e => `📝 <b>${esc(e.name)}:</b> ${esc(e.note)}`).join('<br>')}</div>` : ''}
+    ${window.RebbeStory ? `<button class="btn-ghost story-open-btn" onclick="closeModal(); RebbeStory.open(loadHistory()[${idx}])">📸 Compartir en historias</button>` : ''}
+    ${h.type === 'activity' ? `<button class="act-delete" onclick="RebbeActivity.remove(${idx})">Borrar actividad</button>` : ''}`;
+  if (h.type === 'activity') {
+    document.getElementById('modalTitle').textContent = `${h.emoji || '🤸'} ${h.name}`;
+    document.getElementById('modalStats').innerHTML = `
+      <div class="modal-stat"><div class="modal-stat-val">${h.duration} min</div><div class="modal-stat-label">Duración</div></div>
+      <div class="modal-stat"><div class="modal-stat-val">✓</div><div class="modal-stat-label">Otra actividad</div></div>`;
+    document.getElementById('modalOverlay').classList.add('open');
+    return;
+  }
   if (h.type === 'hiit') {
     document.getElementById('modalTitle').textContent = `⚡ ${h.name}`;
     document.getElementById('modalStats').innerHTML = `
@@ -2955,7 +3109,7 @@ function closeModal() { document.getElementById('modalOverlay').classList.remove
 // ─── STATS ───────────────────────────────────────────────────────────────────
 
 function renderStats() {
-  const history = loadHistory().filter(h => !h.isRest);
+  const history = activeHistory();
   const tw = history.length;
   const tv = history.reduce((a,h) => a+(h.volume||0), 0);
   const ts = history.reduce((a,h) => a+(h.doneSets||0), 0);
@@ -2969,7 +3123,7 @@ function renderStats() {
 }
 
 function renderWeekGrid() {
-  const workoutDates = new Set(loadHistory().filter(h => !h.isRest).map(h => h.date));
+  const workoutDates = new Set(activeHistory().map(h => h.date));
   const restDates = new Set(loadHistory().filter(h => h.isRest).map(h => h.date));
   const today_str = today();
   const now = new Date();
@@ -3206,7 +3360,8 @@ function finishHiit(completed) {
   const mins = Math.max(1, Math.round((Date.now() - r.startedAt) / 60000));
   const sess = HIIT_SESSIONS[r.key];
   const history = loadHistory();
-  history.unshift({ date: today(), type: 'hiit', level: 'hiit', day: r.key, name: sess.title, focus: 'HIIT', doneSets: 0, totalSets: 0, volume: 0, duration: mins, completed });
+  const entry = { date: today(), type: 'hiit', level: 'hiit', day: r.key, name: sess.title, focus: 'HIIT', doneSets: 0, totalSets: 0, volume: 0, duration: mins, completed };
+  history.unshift(entry);
   saveHistory(history);
   renderHistory();
   renderStats();
@@ -3214,6 +3369,7 @@ function finishHiit(completed) {
   updateStreak();
   if (completed) celebrate();
   else showToast(`HIIT guardado · ${mins} min ⚡`);
+  if (window.RebbeStory) setTimeout(() => RebbeStory.open(entry), 1200);
   setTimeout(() => checkAwards(), 3000);
 }
 
@@ -3456,7 +3612,13 @@ function setDaily(patch, date = today()) {
   saveJSON('rebbe_daily', all);
 }
 
-function workoutHistory() { return loadHistory().filter(h => !h.isRest && h.type !== 'hiit'); }
+// A gym workout saved with no sets marked (she opened it only to look and pressed
+// "Finalizar"). Kept in her data, but it no longer counts or shows anywhere.
+function isEmptyWorkout(h) { return !h.isRest && !h.type && !(h.doneSets > 0); }
+// Workouts, HIIT and other activities that really happened (not rest, not empty)
+function activeHistory() { return loadHistory().filter(h => !h.isRest && !isEmptyWorkout(h)); }
+// Only the gym workouts of her plan (these count towards the weekly goal)
+function workoutHistory() { return loadHistory().filter(h => !h.isRest && !h.type && h.doneSets > 0); }
 function weeklyGoal() { const p = PLANS[currentLevel]; return p ? Object.keys(p.days).length : 3; }
 function weekCounts() {
   const m = {};
@@ -3465,7 +3627,7 @@ function weekCounts() {
 }
 
 function computeStreak() {
-  const dates = [...new Set(loadHistory().filter(h => !h.isRest).map(h => h.date))].sort().reverse();
+  const dates = [...new Set(activeHistory().map(h => h.date))].sort().reverse();
   let streak = 0, check = new Date();
   check.setHours(0, 0, 0, 0);
   for (const d of dates) {
@@ -3538,6 +3700,7 @@ function showSection(name) {
   if (name === 'home') renderHome();
   if (name === 'evo') renderEvo();
   if (name === 'diet' && window.RebbeDiet) RebbeDiet.render();
+  if (name === 'challenge' && window.RebbeChallenge) RebbeChallenge.render();
   if (name === 'club') renderClub();
   window.scrollTo(0, 0);
 }
@@ -3603,6 +3766,8 @@ function renderHome() {
       <div class="card-muted" style="margin-top:4px">${new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
     </div>
 
+    ${window.RebbeChallenge ? RebbeChallenge.homeCard() : ''}
+
     <div class="tiles">
       <div class="tile"><b>${thisWeek}/${goal}</b><span>entrenos esta semana</span></div>
       <div class="tile"><b>${streak}</b><span>días seguidos</span></div>
@@ -3617,6 +3782,7 @@ function renderHome() {
     <div class="card">
       <div class="card-label">Tu entreno de hoy</div>
       ${todayCard}
+      <button class="act-add-btn" style="margin:12px 0 0" onclick="RebbeActivity.open()">＋ Registrar otra actividad<span>pilates, barre, clases, correr…</span></button>
     </div>
 
     <div class="card">

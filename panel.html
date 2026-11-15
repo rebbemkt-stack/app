@@ -134,13 +134,14 @@ function ago(d) {
 function summary(p) {
   const d = dataByUser[p.id] || {};
   const hist = Array.isArray(d.bloco_history) ? d.bloco_history : [];
-  const workouts = hist.filter(h => !h.isRest && h.type !== 'hiit');
+  // Gym workouts with at least one set marked (empty ones = she only opened it to look)
+  const workouts = hist.filter(h => !h.isRest && !h.type && h.doneSets > 0);
   const hiits = hist.filter(h => h.type === 'hiit');
   const plan = d.bloco_level || p.plan;
   const goal = plan && plan.includes('5d') ? 5 : 3;
   const ws = weekStart(todayStr());
   const thisWeek = workouts.filter(h => weekStart(h.date) === ws).length;
-  const lastWorkout = hist.filter(h => !h.isRest).map(h => h.date).sort().pop() || null;
+  const lastWorkout = hist.filter(h => !h.isRest && (h.type || h.doneSets > 0)).map(h => h.date).sort().pop() || null;
   const daily = d.rebbe_daily || {};
   const lastMoodDay = Object.keys(daily).filter(k => daily[k] && daily[k].mood !== undefined && daily[k].mood !== null).sort().pop();
   const prs = workouts.reduce((a, h) => a + (h.exercises || []).reduce((b, e) => b + (e.sets || []).filter(s => s.isPR).length, 0), 0);
@@ -340,7 +341,7 @@ function renderDetail(id) {
   const prevMonth = monthKeys.length > 1 ? s.months[monthKeys[monthKeys.length - 2]] : null;
   const measures = s.measures.slice().sort((a, b) => a.date.localeCompare(b.date));
   const firstM = measures[0];
-  const recent = (dataByUser[id] && Array.isArray(dataByUser[id].bloco_history) ? dataByUser[id].bloco_history : []).filter(h => !h.isRest).slice(0, 12);
+  const recent = (dataByUser[id] && Array.isArray(dataByUser[id].bloco_history) ? dataByUser[id].bloco_history : []).filter(h => !h.isRest && (h.type || h.doneSets > 0)).slice(0, 12);
 
   shell(`
     <button class="back" onclick="closeClient()">‹ Volver a clientas</button>
@@ -366,8 +367,8 @@ function renderDetail(id) {
       <div class="card">
         <div class="label">Últimos entrenos</div>
         ${recent.length ? recent.map(h => `
-          <div class="list-row"><div><b>${h.type === 'hiit' ? '⚡ ' + esc(h.name) : esc(h.name) + ' — ' + esc(h.focus)}</b><div class="muted">${fmtDate(h.date)}</div></div>
-          <div class="muted" style="text-align:right">${h.type === 'hiit' ? (h.completed ? 'Completo' : 'Parcial') : `${h.doneSets}/${h.totalSets} series · ${(h.volume || 0).toLocaleString('es-ES')} kg`}<br>${h.duration || 0} min</div></div>`).join('') : '<div class="empty">Aún no ha registrado entrenos.</div>'}
+          <div class="list-row"><div><b>${h.type === 'hiit' ? '⚡ ' + esc(h.name) : h.type === 'activity' ? esc(h.emoji || '🤸') + ' ' + esc(h.name) : esc(h.name) + ' — ' + esc(h.focus)}</b><div class="muted">${fmtDate(h.date)}${h.note ? ' · ' + esc(h.note) : ''}</div></div>
+          <div class="muted" style="text-align:right">${h.type === 'hiit' ? (h.completed ? 'Completo' : 'Parcial') : h.type === 'activity' ? 'Otra actividad' : `${h.doneSets}/${h.totalSets} series · ${(h.volume || 0).toLocaleString('es-ES')} kg`}<br>${h.duration || 0} min</div></div>`).join('') : '<div class="empty">Aún no ha registrado entrenos.</div>'}
       </div>
 
       <div class="card">
