@@ -15,12 +15,72 @@ window.RebbeStory = (function () {
 
   const accent = () => (getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#8B2A4C').trim();
 
+  // Kcal aproximadas: MET × peso (kg) × horas. Usa su último peso de Medidas
+  // (rebbe_measures) o 65 kg si no tiene ninguno. Es una estimación, como Strava.
+  const ACTIVITY_MET = { Pilates: 3, Barre: 3.5, Zumba: 6.5, GAP: 5, 'V Power': 6, Spinning: 8.5, Correr: 9, Caminar: 3.5, Yoga: 2.5, 'Natación': 6 };
+  function bodyWeight() {
+    const ms = (typeof loadJSON === 'function' ? loadJSON('rebbe_measures', []) : []).filter(m => +m.weight > 30).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    return ms.length ? +ms[ms.length - 1].weight : 65;
+  }
+  function kcal(h) {
+    const met = h.express ? 7 : h.type === 'hiit' ? 8 : h.type === 'activity' ? (ACTIVITY_MET[h.name] || 5) : 5;
+    return Math.round(met * bodyWeight() * (+h.duration || 0) / 60);
+  }
+  const dots = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  // Thin white line icon for each kind of workout (instead of the workout name)
+  function iconKind(h) {
+    if (h.express) return 'house';
+    if (h.type === 'hiit') {
+      const k = String(h.day || '');
+      if (/tabata/.test(k)) return 'stopwatch';
+      if (/bike|bici/.test(k)) return 'bike';
+      if (/escalera/.test(k)) return 'stairs';
+      return 'bolt';
+    }
+    if (h.type === 'activity') return h.name === 'Spinning' ? 'bike' : 'pulse';
+    return 'dumbbell';
+  }
+  function drawIcon(ctx, kind, cx, cy, s) {
+    ctx.save();
+    ctx.translate(cx, cy); ctx.scale(s / 100, s / 100);
+    ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#fff';
+    const line = (...p) => { ctx.beginPath(); ctx.moveTo(p[0], p[1]); for (let i = 2; i < p.length; i += 2) ctx.lineTo(p[i], p[i + 1]); ctx.stroke(); };
+    const rr = (x, y, w, h, r) => { ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h); ctx.stroke(); };
+    const circle = (x, y, r) => { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke(); };
+    if (kind === 'dumbbell') {
+      line(-24, 0, 24, 0);
+      rr(-40, -26, 14, 52, 5); rr(26, -26, 14, 52, 5);
+      line(-48, -12, -48, 12); line(48, -12, 48, 12);
+    } else if (kind === 'bolt') {
+      line(8, -44, -20, 6, 4, 6, -8, 44, 22, -6, -2, -6, 8, -44);
+    } else if (kind === 'house') {
+      line(-38, -2, 0, -36, 38, -2);
+      line(-28, -10, -28, 36, 28, 36, 28, -10);
+      line(-9, 36, -9, 12, 9, 12, 9, 36);
+    } else if (kind === 'stopwatch') {
+      circle(0, 6, 34); line(0, 6, 0, -14); line(-8, -40, 8, -40); line(0, -40, 0, -28); line(26, -24, 32, -30);
+    } else if (kind === 'bike') {
+      circle(-27, 14, 18); circle(27, 14, 18);
+      line(-27, 14, -6, -16, 18, -16, 27, 14); line(-6, -16, 2, 14, -27, 14); line(2, 14, 18, -16);
+      line(-12, -26, 0, -26); line(18, -16, 14, -28, 22, -28);
+    } else if (kind === 'stairs') {
+      line(-40, 34, -40, 14, -18, 14, -18, -6, 4, -6, 4, -26, 26, -26, 26, -42, 40, -42);
+    } else {
+      line(-44, 4, -20, 4, -10, -22, 4, 30, 14, 4, 44, 4);
+    }
+    ctx.restore();
+  }
+
+  // Rows of [label, value, unit] for the minimal sticker
   function stats(h) {
-    if (h.express) return { title: 'ENTRENO COMPLETADO', sub: 'Entreno exprés en casa', cols: [[`${h.duration}`, 'MINUTOS'], ['3', 'CIRCUITOS'], [h.completed ? '100%' : '✓', 'HECHO']] };
-    if (h.type === 'hiit') return { title: 'HIIT COMPLETADO', sub: h.name, cols: [[`${h.duration}`, 'MINUTOS'], ['HIIT', 'TIPO'], [h.completed ? '100%' : '✓', 'HECHO']] };
-    if (h.type === 'activity') return { title: 'ACTIVIDAD COMPLETADA', sub: `${h.name}`, cols: [[`${h.duration}`, 'MINUTOS'], [h.name.length > 9 ? h.name.slice(0, 8) + '…' : h.name, 'ACTIVIDAD']] };
-    const vol = h.volume >= 10000 ? `${(h.volume / 1000).toFixed(1).replace('.', ',')}t` : String(Math.round(h.volume)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return { title: 'ENTRENO COMPLETADO', sub: h.focus || h.name, cols: [[`${h.duration}`, 'MINUTOS'], [`${h.doneSets}`, 'SERIES'], [vol, h.volume >= 10000 ? 'VOLUMEN' : 'KG TOTALES']] };
+    const time = ['Tiempo', `${h.duration}`, 'min'];
+    const cal = ['Calorías', dots(kcal(h)), 'kcal'];
+    if (h.express) return { name: 'Entreno exprés', rows: [time, cal, ['Circuitos', '3', '']] };
+    if (h.type === 'hiit' || h.type === 'activity') return { name: h.name, rows: [time, cal] };
+    const vol = h.volume >= 10000 ? [(h.volume / 1000).toFixed(1).replace('.', ','), 't'] : [dots(h.volume), 'kg'];
+    return { name: h.focus || h.name, rows: [time, cal, h.volume > 0 ? ['Volumen', vol[0], vol[1]] : ['Series', `${h.doneSets}`, '']] };
   }
 
   function spaced(ctx, px) { if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px'; }
@@ -73,71 +133,49 @@ window.RebbeStory = (function () {
 
     const st = stats(entry);
     const cx = W / 2;
-    let y = usePhoto ? 330 : clear ? 300 : 470;
     const shadow = usePhoto || clear;   // white text needs a soft shadow over any photo
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fff';
-    ctx.shadowColor = shadow ? 'rgba(0,0,0,0.38)' : 'transparent';
-    ctx.shadowBlur = shadow ? 14 : 0;
+    ctx.shadowColor = shadow ? 'rgba(0,0,0,0.35)' : 'transparent';
+    ctx.shadowBlur = shadow ? 10 : 0;
 
-    // Logo
-    ctx.font = `128px 'DM Serif Display', serif`; spaced(ctx, 0);
-    ctx.fillText('rebbe club.', cx, y);
-
-    // Title + date
-    y += 170;
-    ctx.font = `600 42px 'Poppins', sans-serif`; spaced(ctx, 8);
-    ctx.fillText(`${st.title} ✓`, cx, y);
-    y += 66;
-    ctx.font = `500 36px 'Poppins', sans-serif`; spaced(ctx, 3);
-    ctx.globalAlpha = 0.9;
-    ctx.fillText(new Date(entry.date + 'T12:00:00').toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }), cx, y);
-    ctx.globalAlpha = 1;
-
-    // Stat columns with thin dividers
-    y += 170;
-    const n = st.cols.length, colW = n === 2 ? 400 : 330, x0 = cx - (colW * n) / 2;
-    st.cols.forEach(([v, l], i) => {
+    // Minimal row, Strava style: columns side by side, small label over the number
+    let y = clear ? 140 : (H - 330) / 2 + (usePhoto ? 300 : 40);
+    drawIcon(ctx, iconKind(entry), cx, y - 14, 84);
+    y += 112;
+    const colW = 300, x0 = cx - (colW * st.rows.length) / 2;
+    st.rows.forEach(([label, v, unit], i) => {
       const x = x0 + colW * i + colW / 2;
-      ctx.font = `700 ${v.length > 5 ? 76 : v.length > 4 ? 88 : 100}px 'Poppins', sans-serif`; spaced(ctx, 0);
-      ctx.fillText(v, x, y);
-      ctx.font = `600 26px 'Poppins', sans-serif`; spaced(ctx, 5);
-      ctx.globalAlpha = 0.85; ctx.fillText(l, x, y + 60); ctx.globalAlpha = 1;
-      if (i) { ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillRect(x0 + colW * i - 1, y - 92, 3, 168); ctx.fillStyle = '#fff'; }
+      ctx.font = `400 24px 'Poppins', sans-serif`; spaced(ctx, 3);
+      ctx.globalAlpha = 0.85; ctx.fillText(label.toUpperCase(), x, y); ctx.globalAlpha = 1;
+      spaced(ctx, 0);
+      ctx.font = `600 64px 'Poppins', sans-serif`;
+      const vw = ctx.measureText(v).width;
+      ctx.font = `400 30px 'Poppins', sans-serif`;
+      const uw = unit ? ctx.measureText(' ' + unit).width : 0;
+      const start = x - (vw + uw) / 2;
+      ctx.textAlign = 'left';
+      ctx.font = `600 64px 'Poppins', sans-serif`; ctx.fillText(v, start, y + 74);
+      if (unit) { ctx.font = `400 30px 'Poppins', sans-serif`; ctx.fillText(' ' + unit, start + vw, y + 74); }
+      ctx.textAlign = 'center';
     });
+    y += 74;
 
-    // Workout name
-    y += 170;
-    ctx.font = `500 42px 'Poppins', sans-serif`; spaced(ctx, 0);
-    ctx.fillText(st.sub, cx, y);
-
-    // Challenge day, if she's in the challenge
+    // Logo + challenge day, small
+    y += 78;
+    ctx.font = `52px 'DM Serif Display', serif`; spaced(ctx, 0);
+    ctx.fillText('rebbe club.', cx, y);
     const day = window.RebbeChallenge && RebbeChallenge.dayNumber ? RebbeChallenge.dayNumber(entry.date) : 0;
     if (day > 0) {
-      y += 120;
       const len = typeof CHALLENGE !== 'undefined' && CHALLENGE.length;
-      const label = `DÍA ${day}${len ? ` DE ${len}` : ''} DEL DESAFÍO 🔥`;
-      ctx.font = `700 34px 'Poppins', sans-serif`; spaced(ctx, 5);
-      const tw = ctx.measureText(label).width + 90;
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = (usePhoto || clear) ? acc : 'rgba(255,255,255,0.18)';
-      roundRect(ctx, cx - tw / 2, y - 58, tw, 88, 44); ctx.fill();
-      ctx.fillStyle = '#fff'; ctx.fillText(label, cx, y);
+      y += 46;
+      ctx.font = `500 22px 'Poppins', sans-serif`; spaced(ctx, 3);
+      ctx.globalAlpha = 0.9; ctx.fillText(`DÍA ${day}${len ? ` DE ${len}` : ''} DEL DESAFÍO`, cx, y); ctx.globalAlpha = 1;
     }
 
-    // Handle
-    ctx.shadowBlur = shadow ? 14 : 0;
-    ctx.font = `600 36px 'Poppins', sans-serif`; spaced(ctx, 2);
-    ctx.globalAlpha = 0.9; ctx.fillText('@rebbe.club', cx, clear ? y + 120 : H - 200); ctx.globalAlpha = 1;
-
-    return clear ? trim(c, 30) : c;
+    return clear ? trim(c, 24) : c;
   }
 
-  function roundRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
-  }
 
   async function render() {
     const c = await draw();
@@ -210,5 +248,5 @@ window.RebbeStory = (function () {
     showToast('Imagen descargada 📥');
   }
 
-  return { open, pick, noPhoto, share, copy, mode: setMode, _draw: draw };
+  return { open, pick, noPhoto, share, copy, mode: setMode, _draw: draw, _kcal: kcal };
 })();
